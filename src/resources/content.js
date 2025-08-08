@@ -546,7 +546,7 @@ const gallery = {
       orientation: "horizontal",
     },
     
-    // New York City Collection (3 photos)
+    // New York City Collection (2 photos)
     {
       src: "/images/gallery/nyc_alex_raj_dj.jpeg",
       alt: "NYC Alex Raj DJ",
@@ -557,12 +557,6 @@ const gallery = {
       src: "/images/gallery/nyc_cooking.jpg",
       alt: "NYC Cooking",
       caption: "New York, NY - Culinary school for PTO",
-      orientation: "vertical",
-    },
-    {
-      src: "/images/gallery/nyc_davidwedding.jpg",
-      alt: "NYC David Wedding",
-      caption: "Queens, NY - Celebrating a friend's wedding",
       orientation: "vertical",
     },
     

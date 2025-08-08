@@ -77,13 +77,15 @@ const ProjectTableOfContents: React.FC<ProjectTableOfContentsProps> = ({ current
         top: "50%",
         transform: "translateY(-50%)",
         whiteSpace: "nowrap",
+        zIndex: 10, // Ensure it's above content
+        fontSize: "0.85em", // Reduce overall font size
       }}
       position="fixed"
-      paddingLeft="24"
-      gap="32"
+      paddingLeft="40"
+      gap="24" // Reduced from 32
       hide="m"
     >
-      <Column gap="12">
+      <Column gap="8"> {/* Reduced from 12 */}
         {projects.map((project, index) => {
           const isActive = activeProject === project.slug;
           const shortTitle = getShortTitle(project.metadata.title);
@@ -92,7 +94,7 @@ const ProjectTableOfContents: React.FC<ProjectTableOfContentsProps> = ({ current
             <Flex
               key={project.slug}
               cursor="interactive"
-              gap="8"
+              gap="s" // Using valid spacing token
               vertical="center"
               onClick={() => scrollTo(project.slug)}
               style={{
@@ -102,19 +104,19 @@ const ProjectTableOfContents: React.FC<ProjectTableOfContentsProps> = ({ current
             >
               <Flex 
                 height="1" 
-                minWidth="16" 
+                minWidth="12" // Reduced from 16
                 background={isActive ? "accent-strong" : "neutral-strong"}
               />
-                              <Text 
-                  variant={isActive ? "body-strong-s" : "body-default-s"}
-                  onBackground={isActive ? "accent-strong" : "neutral-strong"}
-                  style={{
-                    fontWeight: isActive ? "700" : "400",
-                    color: isActive ? "var(--text-accent-strong)" : "var(--text-neutral-strong)",
-                  }}
-                >
-                  {shortTitle}
-                </Text>
+              <Text 
+                variant={isActive ? "body-strong-xs" : "body-default-xs"} // Reduced from body-strong-s/body-default-s
+                onBackground={isActive ? "accent-strong" : "neutral-strong"}
+                style={{
+                  fontWeight: isActive ? "700" : "400",
+                  color: isActive ? "var(--text-accent-strong)" : "var(--text-neutral-strong)",
+                }}
+              >
+                {shortTitle}
+              </Text>
             </Flex>
           );
         })}

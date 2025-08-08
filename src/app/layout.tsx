@@ -38,6 +38,7 @@ export default async function RootLayout({
       )}
     >
       <head>
+        <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=5.0, user-scalable=yes" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
         <script
@@ -61,9 +62,9 @@ export default async function RootLayout({
                     transition: style.transition,
                     scaling: style.scaling,
                     'viz-style': dataStyle.variant,
-                  })};
+                  })}
                   
-                  // Apply default values
+                  // Apply config to root
                   Object.entries(config).forEach(([key, value]) => {
                     root.setAttribute('data-' + key, value);
                   });
