@@ -2,7 +2,7 @@
 
 import { Button, Flex, Heading, Input, Text, Background, Column } from "@once-ui-system/core";
 import { opacity, SpacingToken } from "@once-ui-system/core";
-import { useState } from "react";
+import { useState, useCallback, useMemo } from "react";
 
 type ContactBookProps = {
   display: boolean;
@@ -20,19 +20,19 @@ export const ContactBook = ({ newsletter }: { newsletter: ContactBookProps }) =>
   const [emailTouched, setEmailTouched] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  const validateEmail = (email: string): boolean => {
+  const validateEmail = useCallback((email: string): boolean => {
     if (email === "") {
       return true;
     }
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailPattern.test(email);
-  };
+  }, []);
 
-  const validateName = (name: string): boolean => {
+  const validateName = useCallback((name: string): boolean => {
     return name.trim().length > 0;
-  };
+  }, []);
 
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleEmailChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setEmail(value);
 
@@ -41,9 +41,9 @@ export const ContactBook = ({ newsletter }: { newsletter: ContactBookProps }) =>
     } else {
       setEmailError("");
     }
-  };
+  }, [validateEmail]);
 
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleNameChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setName(value);
 
@@ -52,39 +52,58 @@ export const ContactBook = ({ newsletter }: { newsletter: ContactBookProps }) =>
     } else {
       setNameError("");
     }
-  };
+  }, [validateName]);
 
-  const handleInterestChange = (interest: string) => {
-    console.log('handleInterestChange called with:', interest);
-    console.log('Current interests before update:', interests);
-    
+  const handleInterestChange = useCallback((interest: string) => {
     setInterests(prevInterests => {
       const isCurrentlySelected = prevInterests.includes(interest);
-      const newInterests = isCurrentlySelected 
+      return isCurrentlySelected 
         ? prevInterests.filter(i => i !== interest)
         : [...prevInterests, interest];
-      
-      console.log('Previous interests:', prevInterests);
-      console.log('Is currently selected:', isCurrentlySelected);
-      console.log('Updated interests:', newInterests);
-      
-      return newInterests;
     });
-  };
+  }, []);
 
-  const handleEmailBlur = () => {
+  const handleEmailBlur = useCallback(() => {
     setEmailTouched(true);
     if (!validateEmail(email)) {
       setEmailError("Please enter a valid email address.");
     }
-  };
+  }, [email, validateEmail]);
 
-  const handleNameBlur = () => {
+  const handleNameBlur = useCallback(() => {
     setNameTouched(true);
     if (!validateName(name)) {
       setNameError("Please enter your name.");
     }
-  };
+  }, [name, validateName]);
+
+  // Memoize checkbox data to prevent unnecessary re-renders
+  const checkboxData = useMemo(() => ({
+    firstColumn: [
+      { id: "catchup", label: "📞 Catch-up calls & life updates" },
+      { id: "events", label: "🎉 Event invites" },
+      { id: "professional", label: "💼 Professional updates" },
+      { id: "public_investing", label: "📈 Systematic Trading Opportunities" },
+      { id: "small_business_investing", label: "🏢 Small Business Investment Opportunities" },
+      { id: "real_estate_investing", label: "🏠 Real Estate Investment Opportunities" },
+      { id: "mentorship", label: "🎓 Seeking Mentorship & Advice from You" }
+    ],
+    secondColumn: [
+      { id: "datascience", label: "🤖 Data Science / Machine Learning / AI" },
+      { id: "investing", label: "💰 Investing & Trading" },
+      { id: "entrepreneurship", label: "🚀 Small Business Entrepreneurship" },
+      { id: "worldtravel", label: "✈️ World Travel & Language Exchange" },
+      { id: "mountainsports", label: "🏔️ Mountain Adventures" },
+      { id: "oceansports", label: "🌊 Ocean Adventures" },
+      { id: "yoga", label: "🧘 Yoga" },
+      { id: "soccer", label: "⚽ Soccer" }
+    ]
+  }), []);
+
+  // Memoize the checkbox change handler to prevent re-renders
+  const handleCheckboxChange = useCallback((interestId: string) => {
+    handleInterestChange(interestId);
+  }, [handleInterestChange]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -102,25 +121,13 @@ export const ContactBook = ({ newsletter }: { newsletter: ContactBookProps }) =>
     setIsSubmitting(true);
 
     try {
-      // Debug logging before preparing form data
-      console.log('Current interests state:', interests);
-      console.log('Interests type:', typeof interests);
-      console.log('Interests length:', interests ? interests.length : 'undefined');
-      
-      // Prepare form data as URL-encoded parameters (Google Apps Script expects this format)
-      const interestsText = interests && interests.length > 0 ? interests.join(', ') : 'None selected';
+      const interestsText = interests.length > 0 ? interests.join(', ') : 'None selected';
       
       const formData = new URLSearchParams();
       formData.append('name', name);
       formData.append('email', email);
       formData.append('interests', interestsText);
 
-      // Debug logging
-      console.log('Sending interests:', interests);
-      console.log('Interests text:', interestsText);
-      console.log('Form data:', formData.toString());
-
-      // Submit to Google Apps Script
       const response = await fetch('https://script.google.com/macros/s/AKfycbzHWRoHUjuN4yfqVznGFmeX4N2ECul-X1ySDLEWjGgIftr9Ar2aN3norfU6FK1G3IfE/exec', {
         method: 'POST',
         headers: {
@@ -157,8 +164,8 @@ export const ContactBook = ({ newsletter }: { newsletter: ContactBookProps }) =>
     <>
       <style>{`
         @keyframes spin {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
+          0% { transform: rotate3d(0, 0, 1, 0deg); }
+          100% { transform: rotate3d(0, 0, 1, 360deg); }
         }
       `}</style>
       <Column
@@ -231,90 +238,26 @@ export const ContactBook = ({ newsletter }: { newsletter: ContactBookProps }) =>
                   I can hit you up for: (select all that apply)
                 </Text>
                 <Column gap="xs">
-                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', minHeight: '24px' }}>
-                    <input
-                      type="checkbox"
-                      id="catchup"
-                      checked={interests.includes("catchup")}
-                      onChange={(e) => {
-                        console.log('Checkbox catchup changed:', e.target.checked);
-                        handleInterestChange("catchup");
-                      }}
-                    />
-                    <span style={{ whiteSpace: 'nowrap' }}>📞 Catch-up calls & life updates</span>
-                  </label>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', minHeight: '24px' }}>
-                    <input
-                      type="checkbox"
-                      id="events"
-                      checked={interests.includes("events")}
-                      onChange={(e) => {
-                        console.log('Checkbox events changed:', e.target.checked);
-                        handleInterestChange("events");
-                      }}
-                    />
-                    <span style={{ whiteSpace: 'nowrap' }}>🎉 Event invites</span>
-                  </label>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', minHeight: '24px' }}>
-                    <input
-                      type="checkbox"
-                      id="professional"
-                      checked={interests.includes("professional")}
-                      onChange={(e) => {
-                        console.log('Checkbox professional changed:', e.target.checked);
-                        handleInterestChange("professional");
-                      }}
-                    />
-                    <span style={{ whiteSpace: 'nowrap' }}>💼 Professional updates</span>
-                  </label>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', minHeight: '24px' }}>
-                    <input
-                      type="checkbox"
-                      id="public_investing"
-                      checked={interests.includes("public_investing")}
-                      onChange={(e) => {
-                        console.log('Checkbox public_investing changed:', e.target.checked);
-                        handleInterestChange("public_investing");
-                      }}
-                    />
-                    <span style={{ whiteSpace: 'nowrap' }}>📈 Systematic Trading Opportunities</span>
-                  </label>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', minHeight: '24px' }}>
-                    <input
-                      type="checkbox"
-                      id="small_business_investing"
-                      checked={interests.includes("small_business_investing")}
-                      onChange={(e) => {
-                        console.log('Checkbox small_business_investing changed:', e.target.checked);
-                        handleInterestChange("small_business_investing");
-                      }}
-                    />
-                    <span style={{ whiteSpace: 'nowrap' }}>🏢 Small Business Investment Opportunities</span>
-                  </label>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', minHeight: '24px' }}>
-                    <input
-                      type="checkbox"
-                      id="real_estate_investing"
-                      checked={interests.includes("real_estate_investing")}
-                      onChange={(e) => {
-                        console.log('Checkbox real_estate_investing changed:', e.target.checked);
-                        handleInterestChange("real_estate_investing");
-                      }}
-                    />
-                    <span style={{ whiteSpace: 'nowrap' }}>🏠 Real Estate Investment Opportunities</span>
-                  </label>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', minHeight: '24px' }}>
-                    <input
-                      type="checkbox"
-                      id="mentorship"
-                      checked={interests.includes("mentorship")}
-                      onChange={(e) => {
-                        console.log('Checkbox mentorship changed:', e.target.checked);
-                        handleInterestChange("mentorship");
-                      }}
-                    />
-                    <span style={{ whiteSpace: 'nowrap' }}>🎓 Seeking Mentorship & Advice from You</span>
-                  </label>
+                  {checkboxData.firstColumn.map((item) => (
+                    <label key={item.id} style={{ 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      gap: '8px', 
+                      cursor: 'pointer', 
+                      minHeight: '24px',
+                      WebkitUserSelect: 'none',
+                      userSelect: 'none'
+                    }}>
+                      <input
+                        type="checkbox"
+                        id={item.id}
+                        checked={interests.includes(item.id)}
+                        onChange={() => handleCheckboxChange(item.id)}
+                        style={{ transform: 'translateZ(0)' }}
+                      />
+                      <span style={{ whiteSpace: 'nowrap' }}>{item.label}</span>
+                    </label>
+                  ))}
                 </Column>
               </Column>
               
@@ -323,102 +266,26 @@ export const ContactBook = ({ newsletter }: { newsletter: ContactBookProps }) =>
                   We both love: (select all that apply)
                 </Text>
                 <Column gap="xs">
-                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', minHeight: '24px' }}>
-                    <input
-                      type="checkbox"
-                      id="datascience"
-                      checked={interests.includes("datascience")}
-                      onChange={(e) => {
-                        console.log('Checkbox datascience changed:', e.target.checked);
-                        handleInterestChange("datascience");
-                      }}
-                    />
-                    <span style={{ whiteSpace: 'nowrap' }}>🤖 Data Science / Machine Learning / AI</span>
-                  </label>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', minHeight: '24px' }}>
-                    <input
-                      type="checkbox"
-                      id="investing"
-                      checked={interests.includes("investing")}
-                      onChange={(e) => {
-                        console.log('Checkbox investing changed:', e.target.checked);
-                        handleInterestChange("investing");
-                      }}
-                    />
-                    <span style={{ whiteSpace: 'nowrap' }}>💰 Investing & Trading</span>
-                  </label>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', minHeight: '24px' }}>
-                    <input
-                      type="checkbox"
-                      id="entrepreneurship"
-                      checked={interests.includes("entrepreneurship")}
-                      onChange={(e) => {
-                        console.log('Checkbox entrepreneurship changed:', e.target.checked);
-                        handleInterestChange("entrepreneurship");
-                      }}
-                    />
-                    <span style={{ whiteSpace: 'nowrap' }}>🚀 Small Business Entrepreneurship</span>
-                  </label>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', minHeight: '24px' }}>
-                    <input
-                      type="checkbox"
-                      id="worldtravel"
-                      checked={interests.includes("worldtravel")}
-                      onChange={(e) => {
-                        console.log('Checkbox worldtravel changed:', e.target.checked);
-                        handleInterestChange("worldtravel");
-                      }}
-                    />
-                    <span style={{ whiteSpace: 'nowrap' }}>✈️ World Travel & Language Exchange</span>
-                  </label>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', minHeight: '24px' }}>
-                    <input
-                      type="checkbox"
-                      id="mountainsports"
-                      checked={interests.includes("mountainsports")}
-                      onChange={(e) => {
-                        console.log('Checkbox mountainsports changed:', e.target.checked);
-                        handleInterestChange("mountainsports");
-                      }}
-                    />
-                    <span style={{ whiteSpace: 'nowrap' }}>🏔️ Mountain Adventures</span>
-                  </label>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', minHeight: '24px' }}>
-                    <input
-                      type="checkbox"
-                      id="oceansports"
-                      checked={interests.includes("oceansports")}
-                      onChange={(e) => {
-                        console.log('Checkbox oceansports changed:', e.target.checked);
-                        handleInterestChange("oceansports");
-                      }}
-                    />
-                    <span style={{ whiteSpace: 'nowrap' }}>🌊 Ocean Adventures</span>
-                  </label>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', minHeight: '24px' }}>
-                    <input
-                      type="checkbox"
-                      id="yoga"
-                      checked={interests.includes("yoga")}
-                      onChange={(e) => {
-                        console.log('Checkbox yoga changed:', e.target.checked);
-                        handleInterestChange("yoga");
-                      }}
-                    />
-                    <span style={{ whiteSpace: 'nowrap' }}>🧘 Yoga</span>
-                  </label>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', minHeight: '24px' }}>
-                    <input
-                      type="checkbox"
-                      id="soccer"
-                      checked={interests.includes("soccer")}
-                      onChange={(e) => {
-                        console.log('Checkbox soccer changed:', e.target.checked);
-                        handleInterestChange("soccer");
-                      }}
-                    />
-                    <span style={{ whiteSpace: 'nowrap' }}>⚽ Soccer</span>
-                  </label>
+                  {checkboxData.secondColumn.map((item) => (
+                    <label key={item.id} style={{ 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      gap: '8px', 
+                      cursor: 'pointer', 
+                      minHeight: '24px',
+                      WebkitUserSelect: 'none',
+                      userSelect: 'none'
+                    }}>
+                      <input
+                        type="checkbox"
+                        id={item.id}
+                        checked={interests.includes(item.id)}
+                        onChange={() => handleCheckboxChange(item.id)}
+                        style={{ transform: 'translateZ(0)' }}
+                      />
+                      <span style={{ whiteSpace: 'nowrap' }}>{item.label}</span>
+                    </label>
+                  ))}
                 </Column>
               </Column>
             </Flex>
@@ -441,7 +308,9 @@ export const ContactBook = ({ newsletter }: { newsletter: ContactBookProps }) =>
                     border: '2px solid transparent',
                     borderTop: '2px solid currentColor',
                     borderRadius: '50%',
-                    animation: 'spin 1s linear infinite'
+                    animation: 'spin 1s linear infinite',
+                    willChange: 'transform',
+                    transform: 'translateZ(0)'
                   }}></div>
                   Joining...
                 </div>
