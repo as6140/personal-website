@@ -15,7 +15,7 @@ export async function generateMetadata() {
 
 export default function Blog() {
   return (
-    <Column maxWidth="s">
+    <Column>
       <Schema
         as="blogPosting"
         baseURL={baseURL}
@@ -29,16 +29,22 @@ export default function Blog() {
           image: `${baseURL}${person.avatar}`,
         }}
       />
-      <Heading marginBottom="l" variant="display-strong-s">
-        {blog.title}
-      </Heading>
-      <Column
-				fillWidth flex={1}>
-				<Posts range={[1,1]} thumbnail direction="column"/>
-				<Posts range={[2,3]} thumbnail/>
-				<Posts range={[4]} columns="2"/>
-			</Column>
-      {newsletter.display && <ContactBook newsletter={newsletter} />}
+      <Column maxWidth="s">
+        <Heading marginBottom="l" variant="display-strong-s">
+          {blog.title}
+        </Heading>
+        <Column
+          fillWidth flex={1}>
+          <Posts range={[1,1]} thumbnail direction="column"/>
+          <Posts range={[2,3]} thumbnail/>
+          <Posts range={[4]} columns="2"/>
+        </Column>
+      </Column>
+      
+      {/* Contact Book Module */}
+      {newsletter.display && (
+        <ContactBook newsletter={newsletter} />
+      )}
     </Column>
   );
 }

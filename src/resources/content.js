@@ -58,7 +58,7 @@ const home = {
   featured: {
     display: true,
     title: <>Recent project: <strong className="ml-4">Recession Forecast Dashboard</strong></>,
-    href: "/work/recession-forecast-app",
+    href: "/projects/recession-forecast-app",
   },
   subline: (
     <>
@@ -384,12 +384,12 @@ const blog = {
 };
 
 const work = {
-  path: "/work",
-  label: "Work",
+  path: "/projects",
+  label: "Projects",
   title: `Projects – ${person.name}`,
   description: `Design and dev projects by ${person.name}`,
   // Create new project pages by adding a new .mdx file to app/blog/posts
-  // All projects will be listed on the /home and /work routes
+  // All projects will be listed on the /home and /projects routes
 };
 
 const gallery = {
