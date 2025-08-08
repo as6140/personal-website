@@ -10,6 +10,7 @@ export async function POST(request: NextRequest) {
       company, 
       role, 
       linkedin_url, 
+      accredited_investor,
       professional_interests, 
       personal_interests, 
       connection_note 
@@ -33,6 +34,7 @@ export async function POST(request: NextRequest) {
           company: company || null,
           role: role || null,
           linkedin_url: linkedin_url || null,
+          accredited_investor: accredited_investor || false,
           professional_interests: professional_interests || [],
           personal_interests: personal_interests || [],
           connection_note: connection_note || null,

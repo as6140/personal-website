@@ -13,6 +13,8 @@ type ContactBookProps = {
 export const ContactBook = ({ newsletter }: { newsletter: ContactBookProps }) => {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
+  const [linkedinUrl, setLinkedinUrl] = useState<string>("");
+  const [accreditedInvestor, setAccreditedInvestor] = useState<boolean>(false);
   const [interests, setInterests] = useState<string[]>([]);
   const [connectionNote, setConnectionNote] = useState<string>("");
   const [nameError, setNameError] = useState<string>("");
@@ -140,6 +142,8 @@ export const ContactBook = ({ newsletter }: { newsletter: ContactBookProps }) =>
         body: JSON.stringify({
           name,
           email,
+          linkedin_url: linkedinUrl || null,
+          accredited_investor: accreditedInvestor,
           professional_interests: professionalInterests,
           personal_interests: personalInterests,
           connection_note: connectionNote || null
@@ -154,6 +158,8 @@ export const ContactBook = ({ newsletter }: { newsletter: ContactBookProps }) =>
         // Reset form
         setName("");
         setEmail("");
+        setLinkedinUrl("");
+        setAccreditedInvestor(false);
         setInterests([]);
         setConnectionNote("");
         setNameError("");
@@ -242,6 +248,14 @@ export const ContactBook = ({ newsletter }: { newsletter: ContactBookProps }) =>
               onBlur={handleEmailBlur}
               errorMessage={emailTouched ? emailError : ""}
             />
+            <Input
+              id="linkedin"
+              name="linkedin"
+              type="url"
+              placeholder="LinkedIn URL (optional)"
+              value={linkedinUrl}
+              onChange={(e) => setLinkedinUrl(e.target.value)}
+            />
             
             <Flex gap="xl" mobileDirection="column">
               <Column gap="s" flex={1} style={{ minWidth: '280px' }}>
@@ -269,6 +283,35 @@ export const ContactBook = ({ newsletter }: { newsletter: ContactBookProps }) =>
                       <span style={{ whiteSpace: 'nowrap' }}>{item.label}</span>
                     </label>
                   ))}
+                  
+                  {/* Accredited Investor Section */}
+                  <div style={{ 
+                    marginTop: '12px',
+                    padding: '12px', 
+                    border: '1px solid var(--neutral-alpha-medium)', 
+                    borderRadius: '6px',
+                    backgroundColor: 'var(--neutral-alpha-weak)'
+                  }}>
+                    <Text variant="body-strong-xs" onBackground="neutral-strong" style={{ marginBottom: '6px', textAlign: 'left' }} align="left">
+                      Investment Status
+                    </Text>
+                    <label style={{ 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      gap: '8px', 
+                      cursor: 'pointer',
+                      fontSize: '13px',
+                      color: 'var(--text-neutral-strong)'
+                    }}>
+                      <input
+                        type="checkbox"
+                        checked={accreditedInvestor}
+                        onChange={(e) => setAccreditedInvestor(e.target.checked)}
+                        style={{ transform: 'translateZ(0)' }}
+                      />
+                      <span>I am an accredited investor</span>
+                    </label>
+                  </div>
                 </Column>
               </Column>
               
@@ -301,29 +344,24 @@ export const ContactBook = ({ newsletter }: { newsletter: ContactBookProps }) =>
               </Column>
             </Flex>
             
-            <Column gap="s">
-              <Text variant="body-default-s" onBackground="neutral-weak">
-                Want to connect about something else? Anything else you want to message?
-              </Text>
-              <textarea
-                value={connectionNote}
-                onChange={(e) => setConnectionNote(e.target.value)}
-                placeholder="Optional: Share what you'd like to connect about..."
-                style={{
-                  width: '100%',
-                  minHeight: '80px',
-                  padding: '12px',
-                  border: '1px solid var(--neutral-alpha-medium)',
-                  borderRadius: '8px',
-                  backgroundColor: 'var(--page-background)',
-                  color: 'var(--text-neutral-strong)',
-                  fontFamily: 'inherit',
-                  fontSize: '14px',
-                  resize: 'vertical',
-                  outline: 'none'
-                }}
-              />
-            </Column>
+            <textarea
+              value={connectionNote}
+              onChange={(e) => setConnectionNote(e.target.value)}
+              placeholder="Optional: Want to connect about something else? Anything else you want to message?"
+              style={{
+                width: '100%',
+                minHeight: '80px',
+                padding: '12px',
+                border: '1px solid var(--neutral-alpha-medium)',
+                borderRadius: '8px',
+                backgroundColor: 'var(--page-background)',
+                color: 'var(--text-neutral-strong)',
+                fontFamily: 'inherit',
+                fontSize: '14px',
+                resize: 'vertical',
+                outline: 'none'
+              }}
+            />
             
             <Button 
               type="submit" 
