@@ -13,6 +13,7 @@ import {
   Schema
 } from "@once-ui-system/core";
 import { baseURL, about, person, social } from "@/resources";
+import { LocationAndTimezone } from "@/components";
 import TableOfContents from "@/components/about/TableOfContents";
 import styles from "@/components/about/about.module.scss";
 import React from "react";
@@ -30,11 +31,6 @@ export async function generateMetadata() {
 export default function About() {
   const structure = [
     {
-      title: about.intro.title,
-      display: about.intro.display,
-      items: [],
-    },
-    {
       title: about.work.title,
       display: about.work.display,
       items: about.work.experiences.map((experience) => experience.company),
@@ -43,6 +39,11 @@ export default function About() {
       title: about.studies.title,
       display: about.studies.display,
       items: about.studies.institutions.map((institution) => institution.name),
+    },
+    {
+      title: about.otherEducation.title,
+      display: about.otherEducation.display,
+      items: about.otherEducation.institutions.map((institution) => institution.name),
     },
     {
       title: about.technical.title,
@@ -90,54 +91,82 @@ export default function About() {
             horizontal="center"
           >
             <Avatar src={person.avatar} size="xl" />
-            <Flex gap="8" vertical="center">
-              <Icon onBackground="accent-weak" name="globe" />
-              {person.location}
-            </Flex>
-            {person.languages.length > 0 && (
-              <Flex wrap gap="8">
-                {person.languages.map((language, index) => (
-                  <Tag key={language} size="l">
-                    {language}
-                  </Tag>
-                ))}
-              </Flex>
-            )}
+            {/* Social Links and CTA Buttons */}
+            <Column gap="m" horizontal="center">
+              {social.map(
+                (item) =>
+                  item.link && (
+                    <React.Fragment key={item.name}>
+                      <Button
+                        className="s-flex-hide"
+                        key={item.name}
+                        href={item.link}
+                        prefixIcon={item.icon}
+                        label={item.name}
+                        size="s"
+                        weight="strong"
+                        variant="secondary"
+                        style={{
+                          borderWidth: '2px',
+                          borderStyle: 'solid',
+                          borderColor: 'var(--text-primary)',
+                          color: 'var(--text-primary)',
+                          backgroundColor: 'var(--surface-primary)',
+                          fontWeight: '600',
+                          fontSize: '14px',
+                          padding: '8px 16px'
+                        }}
+                      />
+                      <IconButton
+                        className="s-flex-show"
+                        size="m"
+                        key={`${item.name}-icon`}
+                        href={item.link}
+                        icon={item.icon}
+                        variant="secondary"
+                        style={{
+                          borderWidth: '2px',
+                          borderStyle: 'solid',
+                          borderColor: 'var(--text-primary)',
+                          color: 'var(--text-primary)',
+                          backgroundColor: 'var(--surface-primary)'
+                        }}
+                      />
+                    </React.Fragment>
+                  ),
+              )}
+              
+              {/* Request a Video Call Button */}
+              <Button
+                href={about.calendar.link}
+                prefixIcon="calendar"
+                label="Request a Video Call"
+                size="s"
+                weight="strong"
+                variant="secondary"
+                style={{
+                  borderWidth: '2px',
+                  borderStyle: 'solid',
+                  borderColor: 'var(--text-primary)',
+                  color: 'var(--text-primary)',
+                  backgroundColor: 'var(--surface-primary)',
+                  fontWeight: '600',
+                  fontSize: '14px',
+                  padding: '8px 16px'
+                }}
+              />
+            </Column>
+            
           </Column>
         )}
         <Column className={styles.blockAlign} flex={9} maxWidth={40}>
           <Column
-            id={about.intro.title}
             fillWidth
             minHeight="160"
             vertical="center"
             marginBottom="32"
           >
-            {about.calendar.display && (
-              <Flex
-                fitWidth
-                border="brand-alpha-medium"
-                className={styles.blockAlign}
-                style={{
-                  backdropFilter: "blur(var(--static-space-1))",
-                }}
-                background="brand-alpha-weak"
-                radius="full"
-                padding="4"
-                gap="8"
-                marginBottom="m"
-                vertical="center"
-              >
-                <Icon paddingLeft="12" name="calendar" onBackground="brand-weak" />
-                <Flex paddingX="8">Schedule a call</Flex>
-                <IconButton
-                  href={about.calendar.link}
-                  data-border="rounded"
-                  variant="secondary"
-                  icon="chevronRight"
-                />
-              </Flex>
-            )}
+
             <Heading className={styles.textAlign} variant="display-strong-xl">
               {person.name}
             </Heading>
@@ -148,42 +177,8 @@ export default function About() {
             >
               {person.role}
             </Text>
-            {social.length > 0 && (
-              <Flex className={styles.blockAlign} paddingTop="20" paddingBottom="8" gap="8" wrap horizontal="center" fitWidth data-border="rounded">
-                {social.map(
-                  (item) =>
-                    item.link && (
-                        <React.Fragment key={item.name}>
-                            <Button
-                                className="s-flex-hide"
-                                key={item.name}
-                                href={item.link}
-                                prefixIcon={item.icon}
-                                label={item.name}
-                                size="s"
-                                weight="default"
-                                variant="secondary"
-                            />
-                            <IconButton
-                                className="s-flex-show"
-                                size="l"
-                                key={`${item.name}-icon`}
-                                href={item.link}
-                                icon={item.icon}
-                                variant="secondary"
-                            />
-                        </React.Fragment>
-                    ),
-                )}
-              </Flex>
-            )}
-          </Column>
 
-          {about.intro.display && (
-            <Column textVariant="body-default-l" fillWidth gap="m" marginBottom="xl">
-              {about.intro.description}
-            </Column>
-          )}
+          </Column>
 
           {about.work.display && (
             <>
@@ -265,9 +260,29 @@ export default function About() {
                 ))}
               </Column>
             </>
-          )}
+                      )}
 
-          {about.technical.display && (
+            {about.otherEducation.display && (
+              <>
+                <Heading as="h2" id={about.otherEducation.title} variant="display-strong-s" marginBottom="m">
+                  {about.otherEducation.title}
+                </Heading>
+                <Column fillWidth gap="l" marginBottom="40">
+                  {about.otherEducation.institutions.map((institution, index) => (
+                    <Column key={`${institution.name}-${index}`} fillWidth gap="4">
+                      <Text id={institution.name} variant="heading-strong-l">
+                        {institution.name}
+                      </Text>
+                      <Text variant="heading-default-xs" onBackground="neutral-weak">
+                        {institution.description}
+                      </Text>
+                    </Column>
+                  ))}
+                </Column>
+              </>
+            )}
+
+            {about.technical.display && (
             <>
               <Heading
                 as="h2"
@@ -315,6 +330,8 @@ export default function About() {
               </Column>
             </>
           )}
+
+
         </Column>
       </Flex>
     </Column>

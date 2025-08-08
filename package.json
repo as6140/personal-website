@@ -1,34 +1,28 @@
 {
-  "name": "@once-ui-system/magic-portfolio",
-  "version": "2.2.0",
+  "name": "magic-portfolio",
+  "version": "1.0.0",
+  "main": "index.js",
   "scripts": {
     "dev": "next dev",
-    "export": "next export",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
   "dependencies": {
-    "@mdx-js/loader": "^3.1.0",
-    "@next/mdx": "^15.3.1",
-    "@once-ui-system/core": "^1.2.4",
-    "classnames": "^2.5.1",
-    "cookie": "^1.0.2",
-    "gray-matter": "^4.0.3",
-    "next": "^15.3.1",
-    "next-mdx-remote": "^5.0.0",
-    "react": "19.0.0",
-    "react-dom": "19.0.0",
-    "react-icons": "^5.5.0",
-    "react-masonry-css": "^1.0.16",
-    "sass": "^1.86.3"
-  },
-  "devDependencies": {
-    "@types/cookie": "^0.6.0",
-    "@types/node": "^20.17.30",
-    "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0",
-    "eslint": "^9.25.0",
-    "typescript": "^5.8.3"
+    "@types/node": "^24.2.0",
+    "@types/react": "^19.1.9",
+    "@types/react-dom": "^19.1.7",
+    "autoprefixer": "^10.4.21",
+    "next": "^15.4.6",
+    "postcss": "^8.5.6",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "tailwindcss": "^4.1.11",
+    "typescript": "^5.9.2"
   }
 }

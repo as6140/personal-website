@@ -1,89 +1,183 @@
+import {
+  Avatar,
+  Button,
+  Column,
+  Flex,
+  Heading,
+  Icon,
+  IconButton,
+  Tag,
+  Text,
+  Meta,
+  Schema
+} from "@once-ui-system/core";
+import { baseURL, home, person, social, newsletter } from "@/resources";
+import { ContactBook, LocationAndTimezoneHome } from "@/components";
 import React from "react";
 
-import { Heading, Flex, Text, Button, Avatar, RevealFx, Column, Badge, Row, Meta, Schema } from "@once-ui-system/core";
-import { home, about, person, newsletter, baseURL, routes } from "@/resources";
-import { Mailchimp } from "@/components";
-import { Projects } from "@/components/work/Projects";
-import { Posts } from "@/components/blog/Posts";
+export async function generateMetadata() {
+  return Meta.generate({
+    title: home.title,
+    description: home.description,
+    baseURL: baseURL,
+    image: `/api/og/generate?title=${encodeURIComponent(home.title)}`,
+    path: home.path,
+  });
+}
 
 export default function Home() {
   return (
-    <Column maxWidth="m" gap="xl" horizontal="center">
+    <Column maxWidth="m">
       <Schema
         as="webPage"
         baseURL={baseURL}
-        path={home.path}
         title={home.title}
         description={home.description}
+        path={home.path}
         image={`/api/og/generate?title=${encodeURIComponent(home.title)}`}
         author={{
           name: person.name,
-          url: `${baseURL}${about.path}`,
+          url: `${baseURL}${home.path}`,
           image: `${baseURL}${person.avatar}`,
         }}
       />
-      <Column fillWidth paddingY="24" gap="m">
-        <Column maxWidth="s">
-          {home.featured.display && (
-          <RevealFx fillWidth horizontal="start" paddingTop="16" paddingBottom="32" paddingLeft="12">
-            <Badge background="brand-alpha-weak" paddingX="12" paddingY="4" onBackground="neutral-strong" textVariant="label-default-s" arrow={false}
-              href={home.featured.href}>
-              <Row paddingY="2">{home.featured.title}</Row>
-            </Badge>
-          </RevealFx>
-          )}
-          <RevealFx translateY="4" fillWidth horizontal="start" paddingBottom="16">
-            <Heading wrap="balance" variant="display-strong-l">
-              {home.headline}
-            </Heading>
-          </RevealFx>
-          <RevealFx translateY="8" delay={0.2} fillWidth horizontal="start" paddingBottom="32">
-            <Text wrap="balance" onBackground="neutral-weak" variant="heading-default-xl">
-              {home.subline}
-            </Text>
-          </RevealFx>
-          <RevealFx paddingTop="12" delay={0.4} horizontal="start" paddingLeft="12">
-            <Button
-              id="about"
-              data-border="rounded"
-              href={about.path}
-              variant="secondary"
-              size="m"
-              weight="default"
-              arrowIcon
-            >
-              <Flex gap="8" vertical="center" paddingRight="4">
-                {about.avatar.display && (
-                  <Avatar
-                    marginRight="8"
-                    style={{ marginLeft: "-0.75rem" }}
-                    src={person.avatar}
-                    size="m"
+      
+      <Column fillWidth horizontal="center" gap="l" paddingY="l">
+        {/* Avatar */}
+        <Avatar src={person.avatar} size="xl" />
+        
+        {/* Name */}
+        <Heading style={{ textAlign: 'center' }} variant="display-strong-xl">
+          {person.name}
+        </Heading>
+        
+        {/* Role */}
+        <Text style={{ textAlign: 'center' }} variant="display-default-xs" onBackground="neutral-weak">
+          {person.role}
+        </Text>
+        
+        {/* Description */}
+        <Text 
+          style={{ textAlign: 'center', maxWidth: '800px', color: 'var(--text-primary)' }} 
+          variant="body-default-l" 
+          wrap="balance"
+        >
+          {home.subline}
+        </Text>
+        
+        {/* Social Links and Buttons */}
+        <Flex gap="l" wrap horizontal="center" vertical="center">
+          {social.map(
+            (item) =>
+              item.link && (
+                <React.Fragment key={item.name}>
+                  <Button
+                    className="s-flex-hide"
+                    key={item.name}
+                    href={item.link}
+                    prefixIcon={item.icon}
+                    label={item.name}
+                    size="l"
+                    weight="strong"
+                    variant="secondary"
+                    style={{
+                      borderWidth: '3px',
+                      borderStyle: 'solid',
+                      borderColor: 'var(--accent-primary)',
+                      color: 'var(--accent-primary)',
+                      backgroundColor: 'var(--surface-primary)',
+                      fontWeight: '700',
+                      fontSize: '16px',
+                      padding: '12px 20px',
+                      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+                      transition: 'all 0.2s ease',
+                      transform: 'scale(1.05)'
+                    }}
                   />
-                )}
-                {about.title}
-              </Flex>
-            </Button>
-          </RevealFx>
-        </Column>
-      </Column>
-      <RevealFx translateY="16" delay={0.6}>
-        <Projects range={[1, 1]} />
-      </RevealFx>
-      {routes["/blog"] && (
-        <Flex fillWidth gap="24" mobileDirection="column">
-          <Flex flex={1} paddingLeft="l" paddingTop="24">
-            <Heading as="h2" variant="display-strong-xs" wrap="balance">
-              Latest from the blog
-            </Heading>
-          </Flex>
-          <Flex flex={3} paddingX="20">
-            <Posts range={[1, 2]} columns="2" />
-          </Flex>
+                  <IconButton
+                    className="s-flex-show"
+                    size="l"
+                    key={`${item.name}-icon`}
+                    href={item.link}
+                    icon={item.icon}
+                    variant="secondary"
+                    style={{
+                      borderWidth: '3px',
+                      borderStyle: 'solid',
+                      borderColor: 'var(--accent-primary)',
+                      color: 'var(--accent-primary)',
+                      backgroundColor: 'var(--surface-primary)',
+                      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+                      transform: 'scale(1.1)'
+                    }}
+                  />
+                </React.Fragment>
+              ),
+          )}
+          
+          {/* Request a Video Call Button */}
+          <Button
+            href="https://cal.com/alexandershropshire"
+            prefixIcon="calendar"
+            label="Request a Video Call"
+            size="l"
+            weight="strong"
+            variant="secondary"
+            style={{
+              borderWidth: '3px',
+              borderStyle: 'solid',
+              borderColor: 'var(--accent-primary)',
+              color: 'var(--accent-primary)',
+              backgroundColor: 'var(--surface-primary)',
+              fontWeight: '700',
+              fontSize: '16px',
+              padding: '12px 20px',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+              transition: 'all 0.2s ease',
+              transform: 'scale(1.05)'
+            }}
+          />
+          
+          {/* Join My Contact Book Button */}
+          <Button
+            href="#contact-book"
+            label="Join My Contact Book!"
+            size="l"
+            weight="strong"
+            variant="secondary"
+            style={{
+              borderWidth: '3px',
+              borderStyle: 'solid',
+              borderColor: 'var(--accent-primary)',
+              color: 'var(--accent-primary)',
+              backgroundColor: 'var(--surface-primary)',
+              fontWeight: '700',
+              fontSize: '16px',
+              padding: '12px 20px',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+              transition: 'all 0.2s ease',
+              transform: 'scale(1.05)'
+            }}
+          />
         </Flex>
+        
+        {/* Language Tags */}
+        {person.languages.length > 0 && (
+          <Flex wrap gap="8" horizontal="center">
+            {person.languages.map((language, index) => (
+              <Tag key={language} size="l">
+                {language}
+              </Tag>
+            ))}
+          </Flex>
+        )}
+        
+      </Column>
+      
+      {/* Contact Book Module */}
+      {newsletter.display && (
+        <ContactBook newsletter={newsletter} />
       )}
-      <Projects range={[2]} />
-      {newsletter.display && <Mailchimp newsletter={newsletter} />}
     </Column>
   );
 }
