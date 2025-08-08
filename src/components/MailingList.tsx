@@ -54,11 +54,14 @@ export const ContactBook = ({ newsletter }: { newsletter: ContactBookProps }) =>
   };
 
   const handleInterestChange = (interest: string) => {
-    setInterests(prev => 
-      prev.includes(interest) 
+    console.log('handleInterestChange called with:', interest);
+    setInterests(prev => {
+      const newInterests = prev.includes(interest) 
         ? prev.filter(i => i !== interest)
-        : [...prev, interest]
-    );
+        : [...prev, interest];
+      console.log('Updated interests:', newInterests);
+      return newInterests;
+    });
   };
 
   const handleEmailBlur = () => {
@@ -89,6 +92,11 @@ export const ContactBook = ({ newsletter }: { newsletter: ContactBookProps }) =>
     }
 
     try {
+      // Debug logging before preparing form data
+      console.log('Current interests state:', interests);
+      console.log('Interests type:', typeof interests);
+      console.log('Interests length:', interests ? interests.length : 'undefined');
+      
       // Prepare form data as URL-encoded parameters (Google Apps Script expects this format)
       const interestsText = interests && interests.length > 0 ? interests.join(', ') : 'None selected';
       
