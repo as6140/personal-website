@@ -14,6 +14,7 @@ export const ContactBook = ({ newsletter }: { newsletter: ContactBookProps }) =>
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [interests, setInterests] = useState<string[]>([]);
+  const [connectionNote, setConnectionNote] = useState<string>("");
   const [nameError, setNameError] = useState<string>("");
   const [emailError, setEmailError] = useState<string>("");
   const [nameTouched, setNameTouched] = useState<boolean>(false);
@@ -122,19 +123,27 @@ export const ContactBook = ({ newsletter }: { newsletter: ContactBookProps }) =>
     setIsSubmitting(true);
 
     try {
-      const interestsText = interests.length > 0 ? interests.join(', ') : 'None selected';
+      // Separate professional and personal interests
+      const professionalInterests = interests.filter(interest => 
+        ['catchup', 'events', 'professional', 'public_investing', 'small_business_investing', 'real_estate_investing', 'mentorship'].includes(interest)
+      );
       
-      const formData = new URLSearchParams();
-      formData.append('name', name);
-      formData.append('email', email);
-      formData.append('interests', interestsText);
+      const personalInterests = interests.filter(interest => 
+        ['datascience', 'investing', 'entrepreneurship', 'worldtravel', 'mountainsports', 'oceansports', 'yoga', 'soccer', 'music_film_art'].includes(interest)
+      );
 
-      const response = await fetch('https://script.google.com/macros/s/AKfycbzHWRoHUjuN4yfqVznGFmeX4N2ECul-X1ySDLEWjGgIftr9Ar2aN3norfU6FK1G3IfE/exec', {
+      const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Type': 'application/json',
         },
-        body: formData.toString(),
+        body: JSON.stringify({
+          name,
+          email,
+          professional_interests: professionalInterests,
+          personal_interests: personalInterests,
+          connection_note: connectionNote || null
+        }),
       });
 
       const result = await response.json();
@@ -146,6 +155,7 @@ export const ContactBook = ({ newsletter }: { newsletter: ContactBookProps }) =>
         setName("");
         setEmail("");
         setInterests([]);
+        setConnectionNote("");
         setNameError("");
         setEmailError("");
         setNameTouched(false);
@@ -290,6 +300,30 @@ export const ContactBook = ({ newsletter }: { newsletter: ContactBookProps }) =>
                 </Column>
               </Column>
             </Flex>
+            
+            <Column gap="s">
+              <Text variant="body-default-s" onBackground="neutral-weak">
+                Want to connect about something else? Anything else you want to message?
+              </Text>
+              <textarea
+                value={connectionNote}
+                onChange={(e) => setConnectionNote(e.target.value)}
+                placeholder="Optional: Share what you'd like to connect about..."
+                style={{
+                  width: '100%',
+                  minHeight: '80px',
+                  padding: '12px',
+                  border: '1px solid var(--neutral-alpha-medium)',
+                  borderRadius: '8px',
+                  backgroundColor: 'var(--page-background)',
+                  color: 'var(--text-neutral-strong)',
+                  fontFamily: 'inherit',
+                  fontSize: '14px',
+                  resize: 'vertical',
+                  outline: 'none'
+                }}
+              />
+            </Column>
             
             <Button 
               type="submit" 
