@@ -97,6 +97,11 @@ export const ContactBook = ({ newsletter }: { newsletter: ContactBookProps }) =>
       formData.append('email', email);
       formData.append('interests', interestsText);
 
+      // Debug logging
+      console.log('Sending interests:', interests);
+      console.log('Interests text:', interestsText);
+      console.log('Form data:', formData.toString());
+
       // Submit to Google Apps Script
       const response = await fetch('https://script.google.com/macros/s/AKfycbzHWRoHUjuN4yfqVznGFmeX4N2ECul-X1ySDLEWjGgIftr9Ar2aN3norfU6FK1G3IfE/exec', {
         method: 'POST',
