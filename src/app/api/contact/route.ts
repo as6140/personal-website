@@ -24,6 +24,19 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Check if Supabase is configured
+    if (!supabase) {
+      console.warn('Supabase not configured, returning mock response')
+      return NextResponse.json(
+        { 
+          success: true, 
+          message: 'Contact information received (Supabase not configured)',
+          data: { name, email, company, role }
+        },
+        { status: 201 }
+      )
+    }
+
     // Insert into Supabase
     const { data, error } = await supabase
       .from('contacts')
