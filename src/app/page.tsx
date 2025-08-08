@@ -161,17 +161,6 @@ export default function Home() {
           />
         </Flex>
         
-        {/* Language Tags */}
-        {person.languages.length > 0 && (
-          <Flex wrap gap="8" horizontal="center">
-            {person.languages.map((language, index) => (
-              <Tag key={language} size="l">
-                {language}
-              </Tag>
-            ))}
-          </Flex>
-        )}
-        
       </Column>
       
       {/* Contact Book Module */}
