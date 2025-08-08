@@ -7,7 +7,9 @@ export async function GET() {
   
   // Sort posts by date (newest first)
   const sortedPosts = posts.sort((a, b) => {
-    return new Date(b.metadata.publishedAt).getTime() - new Date(a.metadata.publishedAt).getTime();
+    const dateA = a.metadata.publishedAt ? new Date(a.metadata.publishedAt).getTime() : 0;
+    const dateB = b.metadata.publishedAt ? new Date(b.metadata.publishedAt).getTime() : 0;
+    return dateB - dateA;
   });
 
   // Generate RSS XML
@@ -32,7 +34,7 @@ export async function GET() {
       <title>${post.metadata.title}</title>
       <link>${baseURL}/blog/${post.slug}</link>
       <guid>${baseURL}/blog/${post.slug}</guid>
-      <pubDate>${new Date(post.metadata.publishedAt).toUTCString()}</pubDate>
+      <pubDate>${post.metadata.publishedAt ? new Date(post.metadata.publishedAt).toUTCString() : new Date().toUTCString()}</pubDate>
       <description><![CDATA[${post.metadata.summary}]]></description>
       ${post.metadata.image ? `<enclosure url="${baseURL}${post.metadata.image}" type="image/jpeg" />` : ''}
       ${post.metadata.tag ? `<category>${post.metadata.tag}</category>` : ''}

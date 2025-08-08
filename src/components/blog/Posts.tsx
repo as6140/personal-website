@@ -18,7 +18,9 @@ export function Posts({
     let allBlogs = getPosts(['src', 'app', 'blog', 'posts']);
 
     const sortedBlogs = allBlogs.sort((a, b) => {
-        return new Date(b.metadata.publishedAt).getTime() - new Date(a.metadata.publishedAt).getTime();
+        const dateA = a.metadata.publishedAt ? new Date(a.metadata.publishedAt).getTime() : 0;
+        const dateB = b.metadata.publishedAt ? new Date(b.metadata.publishedAt).getTime() : 0;
+        return dateB - dateA;
     });
 
     const displayedBlogs = range
