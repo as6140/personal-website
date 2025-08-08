@@ -89,16 +89,21 @@ export const ContactBook = ({ newsletter }: { newsletter: ContactBookProps }) =>
     }
 
     try {
-      // Prepare form data
-      const formData = new FormData();
+      // Prepare form data as URL-encoded parameters (Google Apps Script expects this format)
+      const interestsText = interests && interests.length > 0 ? interests.join(', ') : 'None selected';
+      
+      const formData = new URLSearchParams();
       formData.append('name', name);
       formData.append('email', email);
-      formData.append('interests', interests.length > 0 ? interests.join(', ') : 'None selected');
+      formData.append('interests', interestsText);
 
-      // Submit to Google Apps Script (you'll need to replace with your web app URL)
+      // Submit to Google Apps Script
       const response = await fetch('https://script.google.com/macros/s/AKfycbzHWRoHUjuN4yfqVznGFmeX4N2ECul-X1ySDLEWjGgIftr9Ar2aN3norfU6FK1G3IfE/exec', {
         method: 'POST',
-        body: formData,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: formData.toString(),
       });
 
       const result = await response.json();
@@ -232,7 +237,7 @@ export const ContactBook = ({ newsletter }: { newsletter: ContactBookProps }) =>
                 />
                 <Checkbox
                   id="mentorship"
-                  label="🎓 Mentorship & Advice"
+                  label="🎓 Seeking Mentorship & Advice from You"
                   checked={interests.includes("mentorship")}
                   onChange={() => handleInterestChange("mentorship")}
                 />
@@ -264,7 +269,7 @@ export const ContactBook = ({ newsletter }: { newsletter: ContactBookProps }) =>
                 />
                 <Checkbox
                   id="worldtravel"
-                  label="✈️ World Travel"
+                  label="✈️ World Travel & Language Exchange"
                   checked={interests.includes("worldtravel")}
                   onChange={() => handleInterestChange("worldtravel")}
                 />
