@@ -31,8 +31,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   avatars,
   link,
 }) => {
+  // Extract slug from href for scroll tracking
+  const slug = href.split('/').pop() || '';
+  
   return (
-    <Column fillWidth gap="m">
+    <Column fillWidth gap="m" data-project-slug={slug}>
       {/* Title and Description Above Photos */}
       <Flex
         mobileDirection="column"

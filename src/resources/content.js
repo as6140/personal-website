@@ -1,4 +1,5 @@
 import { Logo } from "@once-ui-system/core";
+import { processMusicItems } from "./spotify-config";
 
 const person = {
   firstName: "Alexander",
@@ -353,22 +354,53 @@ const about = {
       },
       {
         title: "Languages",
-        description: <>English (Native or Bilingual), Spanish (Limited Working - currently working through CEFR B1)</>,
-        images: [],
-      },
-
-      {
-        title: "Professional Recommendations",
         description: (
           <>
-            <strong>Robert Price, Data Science Manager at Brex:</strong> "I have had the pleasure of working with Alex for over two years at Brex, and he is one of the most talented and dedicated data scientists I've worked with. Alex's attention to detail is excellent. He is incredibly skilled at analyzing complex data sets and identifying patterns and insights that others might miss. He is meticulous in his work and always takes the time to ensure that his analyses are accurate and reliable. Alex's statistical chops are also impressive. He deeply understands statistical applications and is skilled in various techniques. He is always eager to learn and apply new statistical methods to real-world problems. In addition to his technical skills, Alex also has excellent business intuition. He understands the importance of data-driven decision-making and can communicate complex ideas in a way that is easy for non-technical stakeholders to understand. He is a valuable asset to any team, and I'd love to work with him again."
-            <br /><br />
-            <strong>Hirav Gandhi, Product Manager at Plaid:</strong> "Alex is one of the best data scientists I have worked with in my career as a product leader. Alex is highly autonomous and has the rare combination of analytical fortitude and business sense that makes him an invaluable asset to any product team. When Alex first started working with our team, he quickly dived into the product area and understood not only how our product worked for customers, but also the value proposition to our various customer segments and what mattered for our business objectives as well. Alex demonstrated not only impressive acumen in these areas, but also worked hand in hand with our engineers to throughly understand our data architecture and instrumentation. Alex then collaborated heavily with my product team and me to lay out the right metrics and key results tied to our business objectives and ensure we had all of the right data at our fingertips. Using his deep knowledge of the entire domain, Alex then presented numerous novel explorations into how we could further optimize the product and business using data science and rigorous statistical analysis. Thanks to his strong analyses and deep collaboration, my team was able to devise and prioritize multiple initiatives that significantly improved the quality of our Accounting product. Overall, it was a pleasure to work with Alex and I would thoroughly recommend him as a data science partner for any team looking for a collaborative yet highly autonomous, product minded individual."
-            <br /><br />
-            <strong>Carrie Collins, Technology Strategy at Ford:</strong> "Alex was instrumental as a subject matter expert as our team conducted research on the use of data analytics in the entertainment industry as part of a larger project focused on film-making. We engaged Alex early on in our project and he was able to walk us through the process of source IP evaluation, movie green-lighting and financing, and marketing and theatrical distribution. His experience and expertise in this area helped us to better understand trends in Big Data and recent innovations in applied analytics as they apply to film-making and to the broader digital media entertainment space. These insights allowed us to expand our firm's knowledge base and provided a strong foundation for our future recommendations to clients in the digital media and entertainment industries. Alex earns my highest recommendation as an expert in his field."
+            <strong>English:</strong> Native or Bilingual
+            <br />
+            <strong>Spanish:</strong> Conversational / Limited Working - currently working through CEFR B1
           </>
         ),
         images: [],
+      },
+    ],
+  },
+  recommendations: {
+    display: true, // set to false to hide this section
+    title: "Professional Recommendations",
+    recommendations: [
+      {
+        name: "Robert Price",
+        role: "Data Science Manager at Brex",
+        linkedinUrl: "https://www.linkedin.com/in/alexandershropshire/details/recommendations/",
+        highlights: [
+          "One of the most talented and dedicated data scientists I've worked with",
+          "He is incredibly skilled at analyzing complex data sets and identifying patterns and insights that others might miss",
+          "He deeply understands statistical applications and is skilled in various techniques",
+          "He understands the importance of data-driven decision-making and can communicate complex ideas in a way that is easy for non-technical stakeholders to understand"
+        ]
+      },
+      {
+        name: "Hirav Gandhi",
+        role: "Product Manager at Plaid",
+        linkedinUrl: "https://www.linkedin.com/in/alexandershropshire/details/recommendations/",
+        highlights: [
+          "One of the best data scientists I have worked with in my career as a product leader",
+          "Has the rare combination of analytical fortitude and business sense that makes him an invaluable asset to any product team",
+          "Quickly dived into the product area and understood not only how our product worked for customers, but also the value proposition to our various customer segments",
+          "Presented numerous novel explorations into how we could further optimize the product and business using data science and rigorous statistical analysis"
+        ]
+      },
+      {
+        name: "Carrie Collins",
+        role: "Technology Strategy at Ford",
+        linkedinUrl: "https://www.linkedin.com/in/alexandershropshire/details/recommendations/",
+        highlights: [
+          "Alex was instrumental as a subject matter expert as our team conducted research on the use of data analytics in the entertainment industry",
+          "He was able to walk us through the process of source IP evaluation, movie green-lighting and financing, and marketing and theatrical distribution",
+          "His experience and expertise in this area helped us to better understand trends in Big Data and recent innovations in applied analytics",
+          "Alex earns my highest recommendation as an expert in his field"
+        ]
       },
     ],
   },
@@ -385,9 +417,9 @@ const blog = {
 
 const work = {
   path: "/projects",
-  label: "Projects",
-  title: `Projects – ${person.name}`,
-  description: `Design and dev projects by ${person.name}`,
+  label: "Data Projects & Research",
+  title: `Data Projects & Research – ${person.name}`,
+  description: `Data science, machine learning, and research projects by ${person.name}`,
   // Create new project pages by adding a new .mdx file to app/blog/posts
   // All projects will be listed on the /home and /projects routes
 };
@@ -395,53 +427,240 @@ const work = {
 const gallery = {
   path: "/gallery",
   label: "Gallery",
-  title: `Photo gallery – ${person.name}`,
-  description: `A photo collection by ${person.name}`,
-  // Images by https://lorant.one
-  // These are placeholder images, replace with your own
+  title: "Photo Gallery",
+  description: "A casual space to share some highlights and memories from recent travels, adventures, weddings, and cultural experiences that I've enjoyed while being a remote worker for the past few years!",
   images: [
+    // Profile Photo (Keep at top)
     {
-      src: "/images/gallery/horizontal-1.jpg",
-      alt: "image",
+      src: "/images/gallery/oaxaca_profile_blue.jpeg",
+      alt: "Oaxaca Profile - Blue Wall Portrait",
+      caption: "Oaxaca, MX - Somewhere in Centro",
+      orientation: "vertical",
+    },
+    
+    // Newer Photos (Most Recent First)
+    {
+      src: "/images/gallery/paris_starrynight.jpg",
+      alt: "Paris Starry Night",
+      caption: "Paris, France - Attempted my own Starry Night with an iPhone",
       orientation: "horizontal",
     },
     {
-      src: "/images/gallery/horizontal-2.jpg",
-      alt: "image",
+      src: "/images/gallery/newport_channa.jpg",
+      alt: "Newport Channa",
+      caption: "Newport Beach, CA - Hanging at the beach with my friend's daughter",
       orientation: "horizontal",
     },
     {
-      src: "/images/gallery/horizontal-3.jpg",
-      alt: "image",
+      src: "/images/gallery/utah_snowbird.jpg",
+      alt: "Utah Snowbird",
+      caption: "Snowbird, UT - Skiing at Snowbird resort",
       orientation: "horizontal",
     },
     {
-      src: "/images/gallery/horizontal-4.jpg",
-      alt: "image",
+      src: "/images/gallery/vegas_olivia.jpeg",
+      alt: "Vegas Olivia",
+      caption: "Las Vegas, NV - Airplane fun with my niece",
       orientation: "horizontal",
     },
     {
-      src: "/images/gallery/vertical-1.jpg",
-      alt: "image",
+      src: "/images/gallery/vegas_skydiving.jpg",
+      alt: "Las Vegas, NV - Skydiving fun with my sisters",
+      caption: "Skydiving over Las Vegas",
+      orientation: "horizontal",
+    },
+    {
+      src: "/images/gallery/grandrapids_squad.jpeg",
+      alt: "Grand Rapids Squad",
+      caption: "Grand Rapids, MI - Botanic gardens at a friend's wedding",
+      orientation: "horizontal",
+    },
+    {
+      src: "/images/gallery/atlanta_aveek.jpg",
+      alt: "Atlanta Aveek",
+      caption: "Atlanta, GA - Celebrating a friend's wedding",
+      orientation: "horizontal",
+    },
+    
+    // Oaxaca Collection (6 photos - excluding profile)
+    {
+      src: "/images/gallery/oaxaca_ceremonialdance.jpg",
+      alt: "Oaxaca Ceremonial Dance",
+      caption: "Teotitlán del Valle, MX - Traditional Zapotec Dance @ Iglesia de Nuestra Señora de la Natividad",
       orientation: "vertical",
     },
     {
-      src: "/images/gallery/vertical-2.jpg",
-      alt: "image",
+      src: "/images/gallery/oaxaca_cuaji_hike.jpeg",
+      alt: "Oaxaca Cuaji Hike",
+      caption: " - Hiking in the Sierra Norte Mountains",
+      orientation: "horizontal",
+    },
+    {
+      src: "/images/gallery/oaxaca_cuajimoloyas_hike.jpeg",
+      alt: "Oaxaca Cuajimoloyas Hike",
+      caption: "Oaxaca, MX - Mountain trails in Cuajimoloyas",
       orientation: "vertical",
     },
     {
-      src: "/images/gallery/vertical-3.jpg",
-      alt: "image",
+      src: "/images/gallery/oaxaca_hierve.jpg",
+      alt: "Oaxaca Hierve el Agua",
+      caption: "Oaxaca, MX - Natural mineral springs at Hierve el Agua",
+      orientation: "horizontal",
+    },
+    {
+      src: "/images/gallery/oaxaca_plate.jpeg",
+      alt: "Oaxaca Traditional Plate",
+      caption: "Oaxaca, MX - Lunch at Mercado Orgánico La Cosecha",
+      orientation: "horizontal",
+    },
+    {
+      src: "/images/gallery/oaxaca_waterfall.jpeg",
+      alt: "Oaxaca Waterfall",
+      caption: "Oaxaca, MX - Cascadas de Santiago Apoala",
+      orientation: "vertical",
+    },
+    
+    // Guadalajara Collection (4 photos)
+    {
+      src: "/images/gallery/gdl_cantaritos.jpg",
+      alt: "Guadalajara Cantaritos",
+      caption: "Guadalajara, MX - dance party at Cantaritos el Güero",
       orientation: "vertical",
     },
     {
-      src: "/images/gallery/vertical-4.jpg",
-      alt: "image",
+      src: "/images/gallery/gdl_chivas.jpg",
+      alt: "Guadalajara Chivas",
+      caption: "Guadalajara, MX - Chivas football match",
+      orientation: "horizontal",
+    },
+    {
+      src: "/images/gallery/gdl_nightfall.jpg",
+      alt: "Guadalajara Nightfall",
+      caption: "Guadalajara, MX - City lights at dusk",
+      orientation: "horizontal",
+    },
+    {
+      src: "/images/gallery/gdl_sunset.jpg",
+      alt: "Guadalajara Sunset",
+      caption: "Guadalajara, MX - Golden hour",
+      orientation: "horizontal",
+    },
+    
+    // New York City Collection (3 photos)
+    {
+      src: "/images/gallery/nyc_alex_raj_dj.jpeg",
+      alt: "NYC Alex Raj DJ",
+      caption: "Brooklyn, NY - Attempting to DJ at a friend's birthday",
+      orientation: "horizontal",
+    },
+    {
+      src: "/images/gallery/nyc_cooking.jpg",
+      alt: "NYC Cooking",
+      caption: "New York, NY - Culinary school for PTO",
       orientation: "vertical",
+    },
+    {
+      src: "/images/gallery/nyc_davidwedding.jpg",
+      alt: "NYC David Wedding",
+      caption: "Queens, NY - Celebrating a friend's wedding",
+      orientation: "vertical",
+    },
+    
+    // Alaska Collection (2 photos)
+    {
+      src: "/images/gallery/alaska_brex.jpeg",
+      alt: "Alaska Brex",
+      caption: "Girdwood, AK - Alaska adventure with Brex team",
+      orientation: "horizontal",
+    },
+    {
+      src: "/images/gallery/alaska_glacier_on.jpg",
+      alt: "Alaska Glacier",
+      caption: "Matanuska Glacier, AK - Hiking on a glacier",
+      orientation: "horizontal",
+    },
+    
+    // Ireland Collection (2 photos)
+    {
+      src: "/images/gallery/ireland_cliffs.jpg",
+      alt: "Ireland Cliffs",
+      caption: "Kerry, Ireland - Irish coastline near Dunquin Pier",
+      orientation: "horizontal",
+    },
+    {
+      src: "/images/gallery/ireland_sheep.jpg",
+      alt: "Ireland Sheep",
+      caption: "Kerry, Ireland - Exploring a farm with Sheep, Border Collies, and Donkeys",
+      orientation: "vertical",
+    },
+    
+    // Iztaccíhuatl Collection (2 photos)
+    {
+      src: "/images/gallery/izta_sunny.jpeg",
+      alt: "Iztaccíhuatl Sunny",
+      caption: "Iztaccíhuatl, MX - Sun has risen at volcano",
+      orientation: "vertical",
+    },
+    {
+      src: "/images/gallery/izta_sunrise.jpeg",
+      alt: "Iztaccíhuatl Sunrise",
+      caption: "Iztaccíhuatl, MX - Sunrise over the volcano",
+      orientation: "horizontal",
+    },
+    
+    // Palm Springs Collection (2 photos)
+    {
+      src: "/images/gallery/palm_springs_best_man_speech.jpeg",
+      alt: "Palm Springs Best Man Speech",
+      caption: "Palm Springs, CA - Best man speech",
+      orientation: "vertical",
+    },
+    {
+      src: "/images/gallery/palm_springs_groomsman.jpeg",
+      alt: "Palm Springs Groomsman",
+      caption: "Palm Springs, CA - Groomsman at friend's wedding",
+      orientation: "horizontal",
+    },
+    
+    // Individual Destinations
+    {
+      src: "/images/gallery/madrid_bernabeau.jpg",
+      alt: "Madrid Bernabéu",
+      caption: "Madrid, Spain - Real Madrid game at the Bernabeau",
+      orientation: "horizontal",
+    },
+    {
+      src: "/images/gallery/utah_sunset.jpeg",
+      alt: "Utah Sunset",
+      caption: "Brighton, UT - Skiing sunset at Brighton Resort",
+      orientation: "vertical",
+    },
+    {
+      src: "/images/gallery/mexico_city_zach.jpg",
+      alt: "Mexico City Zach",
+      caption: "Mexico City, MX - Exploring Centro with a friend",
+      orientation: "horizontal",
+    },
+    {
+      src: "/images/gallery/iceland_waterfall.jpeg",
+      alt: "Iceland Waterfall",
+      caption: "Seljalandsfoss, Iceland - admiring a waterfall with friends",
+      orientation: "horizontal",
     },
   ],
 };
 
-export { person, social, newsletter, home, about, blog, work, gallery };
+const musicData = processMusicItems();
+
+const music = {
+  path: "/music",
+  label: "Music",
+  title: `Music – ${person.name}`,
+  description: `Music collection and playlists by ${person.name}`,
+  profile: musicData.profile,
+  playlists: musicData.playlists,
+  albums: musicData.albums,
+};
+
+export { person, social, newsletter, home, about, blog, work, gallery, music };
 

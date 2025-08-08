@@ -1,9 +1,10 @@
 import { notFound } from "next/navigation";
 import { getPosts } from "@/utils/utils";
-import { Meta, Schema, AvatarGroup, Button, Column, Flex, Heading, Media, Text } from "@once-ui-system/core";
+import { Meta, Schema, AvatarGroup, Button, Column, Flex, Heading, Media, Text, Tag } from "@once-ui-system/core";
 import { baseURL, about, person, work } from "@/resources";
 import { formatDate } from "@/utils/formatDate";
 import { ScrollToHash, CustomMDX } from "@/components";
+import ProjectTableOfContents from "@/components/work/ProjectTableOfContents";
 import { Metadata } from "next";
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
@@ -41,11 +42,37 @@ export default async function Project({
   const routeParams = await params;
   const slugPath = Array.isArray(routeParams.slug) ? routeParams.slug.join('/') : routeParams.slug || '';
 
-  let post = getPosts(["src", "app", "projects"]).find((post) => post.slug === slugPath);
+  const allProjects = getPosts(["src", "app", "projects"]);
+  let post = allProjects.find((post) => post.slug === slugPath);
 
   if (!post) {
     notFound();
   }
+
+  // Manual ordering - same as in Projects.tsx
+  const projectOrder = [
+    "ml4t-strategy-evaluation",
+    "recession-forecast-app", 
+    "solo-quant-trading-infrastructure",
+    "peervest-p2p-lending-robo-advisor",
+    "market-maven-ensemble-modeling",
+    "european-soccer-hypothesis-testing",
+    "king-county-housing-predictor"
+  ];
+
+  const sortedProjects = allProjects.sort((a, b) => {
+    const aIndex = projectOrder.indexOf(a.slug);
+    const bIndex = projectOrder.indexOf(b.slug);
+    
+    if (aIndex !== -1 && bIndex !== -1) {
+      return aIndex - bIndex;
+    }
+    
+    if (aIndex !== -1) return -1;
+    if (bIndex !== -1) return 1;
+    
+    return a.slug.localeCompare(b.slug);
+  });
 
   const avatars =
     post.metadata.team?.map((person) => ({
@@ -69,6 +96,7 @@ export default async function Project({
           image: `${baseURL}${person.avatar}`,
         }}
       />
+      <ProjectTableOfContents currentSlug={post.slug} projects={sortedProjects} />
       <Column maxWidth="xs" gap="16">
         <Button data-border="rounded" href="/projects" variant="tertiary" weight="default" size="s" prefixIcon="chevronLeft">
           Projects
@@ -91,6 +119,15 @@ export default async function Project({
             {post.metadata.publishedAt && formatDate(post.metadata.publishedAt)}
           </Text>
         </Flex>
+        {post.metadata.tags && post.metadata.tags.length > 0 && (
+          <Flex gap="s" marginBottom="24" wrap>
+            {post.metadata.tags.map((tag, index) => (
+              <Tag key={index} color="neutral">
+                {tag}
+              </Tag>
+            ))}
+          </Flex>
+        )}
         <CustomMDX source={post.content} />
       </Column>
       <ScrollToHash />

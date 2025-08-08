@@ -25,6 +25,15 @@ export const Footer = () => {
         <Text variant="body-default-s" onBackground="neutral-strong">
           <Text onBackground="neutral-weak">© {currentYear} /</Text>
           <Text paddingX="4">{person.name}</Text>
+          <Text paddingX="4" onBackground="neutral-weak">/</Text>
+          <SmartLink 
+            href="https://onceui.com" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            style={{ textDecoration: 'none', color: 'var(--text-neutral-weak)' }}
+          >
+            Build your portfolio with Once UI
+          </SmartLink>
         </Text>
         <Flex gap="16">
           {social.map(

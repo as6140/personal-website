@@ -1,4 +1,4 @@
-import { Flex, Meta, Schema } from "@once-ui-system/core";
+import { Flex, Meta, Schema, Text, Column } from "@once-ui-system/core";
 import MasonryGrid from "@/components/gallery/MasonryGrid";
 import { baseURL, gallery, person } from "@/resources";
 
@@ -28,7 +28,17 @@ export default function Gallery() {
           image: `${baseURL}${person.avatar}`,
         }}
       />
-      <MasonryGrid />
+      <Column gap="xl" style={{ width: '100%' }}>
+        <Column gap="m">
+          <Text variant="heading-strong-xl" onBackground="neutral-strong">
+            {gallery.title}
+          </Text>
+          <Text variant="body-default-l" onBackground="neutral-weak">
+            {gallery.description}
+          </Text>
+        </Column>
+        <MasonryGrid />
+      </Column>
     </Flex>
   );
 }

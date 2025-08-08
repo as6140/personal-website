@@ -86,7 +86,7 @@ export const ContactBook = ({ newsletter }: { newsletter: ContactBookProps }) =>
       { id: "public_investing", label: "📈 Systematic Trading Opportunities" },
       { id: "small_business_investing", label: "🏢 Small Business Investment Opportunities" },
       { id: "real_estate_investing", label: "🏠 Real Estate Investment Opportunities" },
-      { id: "mentorship", label: "🎓 Seeking Mentorship & Advice from You" }
+      { id: "mentorship", label: "🤝 Mentorship & Advice From You" }
     ],
     secondColumn: [
       { id: "datascience", label: "🤖 Data Science / Machine Learning / AI" },
@@ -96,7 +96,8 @@ export const ContactBook = ({ newsletter }: { newsletter: ContactBookProps }) =>
       { id: "mountainsports", label: "🏔️ Mountain Adventures" },
       { id: "oceansports", label: "🌊 Ocean Adventures" },
       { id: "yoga", label: "🧘 Yoga" },
-      { id: "soccer", label: "⚽ Soccer" }
+      { id: "soccer", label: "⚽ Soccer" },
+      { id: "music_film_art", label: "🎵 Music, Film, and Art" }
     ]
   }), []);
 

@@ -10,7 +10,8 @@ import {
   Tag,
   Text,
   Meta,
-  Schema
+  Schema,
+  SmartLink
 } from "@once-ui-system/core";
 import { baseURL, about, person, social } from "@/resources";
 import { LocationAndTimezone } from "@/components";
@@ -49,6 +50,11 @@ export default function About() {
       title: about.technical.title,
       display: about.technical.display,
       items: about.technical.skills.map((skill) => skill.title),
+    },
+    {
+      title: about.recommendations.title,
+      display: about.recommendations.display,
+      items: about.recommendations.recommendations.map((rec) => rec.name),
     },
   ];
   return (
@@ -295,10 +301,10 @@ export default function About() {
               <Column fillWidth gap="l">
                 {about.technical.skills.map((skill, index) => (
                   <Column key={`${skill}-${index}`} fillWidth gap="4">
-                    <Text id={skill.title} variant="heading-strong-l">{skill.title}</Text>
-                    <Text variant="body-default-m" onBackground="neutral-weak">
-                      {skill.description}
-                    </Text>
+                                    <Text id={skill.title} variant="heading-strong-l">{skill.title}</Text>
+                <Text variant="body-default-m" onBackground="neutral-weak" marginBottom={skill.title === "Languages" ? "xl" : "0"}>
+                  {skill.description}
+                </Text>
                     {skill.images && skill.images.length > 0 && (
                       <Flex fillWidth paddingTop="m" gap="12" wrap>
                         {skill.images.map((image, index) => (
@@ -325,6 +331,52 @@ export default function About() {
                         ))}
                       </Flex>
                     )}
+                  </Column>
+                ))}
+              </Column>
+            </>
+          )}
+
+          {about.recommendations.display && (
+            <>
+              <Heading
+                as="h2"
+                id={about.recommendations.title}
+                variant="display-strong-s"
+                marginBottom="40"
+              >
+                {about.recommendations.title}
+              </Heading>
+              <Column fillWidth gap="xl">
+                {about.recommendations.recommendations.map((rec, index) => (
+                  <Column key={`${rec.name}-${index}`} fillWidth gap="m">
+                    <Flex fillWidth horizontal="space-between" vertical="end" marginBottom="4">
+                      <SmartLink
+                        href={rec.linkedinUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ textDecoration: 'none' }}
+                      >
+                        <Text id={rec.name} variant="heading-strong-l" style={{ color: 'var(--text-accent-strong)' }}>
+                          {rec.name}
+                        </Text>
+                      </SmartLink>
+                      <Text variant="heading-default-xs" onBackground="neutral-weak">
+                        {rec.role}
+                      </Text>
+                    </Flex>
+                    <Column gap="s">
+                      {rec.highlights.map((highlight, highlightIndex) => (
+                        <Text 
+                          key={highlightIndex}
+                          variant="body-default-l" 
+                          onBackground="neutral-weak" 
+                          style={{ fontStyle: 'italic' }}
+                        >
+                          "{highlight}"
+                        </Text>
+                      ))}
+                    </Column>
                   </Column>
                 ))}
               </Column>
