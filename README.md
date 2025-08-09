@@ -14,7 +14,7 @@ A modern, responsive portfolio website built with Next.js and Once UI. Features 
 - **MDX Content System** - Write projects and blog posts in Markdown with React components
 - **SEO Optimized** - Automatic meta tags, Open Graph images, and sitemap generation
 - **Performance Focused** - Fast loading with Next.js optimizations
-- **Contact Integration** - Built-in contact form with Google Sheets integration
+- **Contact Integration** - Built-in contact form with Supabase database
 
 ### Pages & Sections
 - **Home** - Personal introduction and featured content
@@ -31,7 +31,7 @@ A modern, responsive portfolio website built with Next.js and Once UI. Features 
 - **Styling:** CSS Modules + Once UI Design System
 - **Content:** MDX for projects and blog posts
 - **Deployment:** Vercel
-- **Contact Form:** Google Apps Script + Google Sheets
+- **Contact Form:** Supabase + Row Level Security
 - **Icons:** Once UI Icon Library
 - **TypeScript:** Full type safety
 

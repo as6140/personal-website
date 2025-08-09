@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { createClient } from '@supabase/supabase-js'
 
 export async function POST(request: NextRequest) {
   try {
@@ -24,51 +24,64 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Check if Supabase is configured
-    if (!supabase) {
-      console.warn('Supabase not configured, returning mock response')
+    // Create a fresh Supabase client directly in the route
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+    if (!supabaseUrl || !supabaseAnonKey) {
+      console.warn('Supabase not configured - missing environment variables')
       return NextResponse.json(
         { 
           success: true, 
-          message: 'Contact information received (Supabase not configured)',
-          data: { name, email, company, role }
+          message: 'Contact information received (Supabase not configured - check environment variables)',
+          data: { name, email, company, role, professional_interests, personal_interests }
         },
         { status: 201 }
       )
     }
 
-    // Insert into Supabase
-    const { data, error } = await supabase
-      .from('contacts')
-      .insert([
-        {
-          name,
-          email,
-          company: company || null,
-          role: role || null,
-          linkedin_url: linkedin_url || null,
-          accredited_investor: accredited_investor || false,
-          professional_interests: professional_interests || [],
-          personal_interests: personal_interests || [],
-          connection_note: connection_note || null,
-          follow_up_needed: true
-        }
-      ])
-      .select()
+    // Create a fresh client for this request
+    const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
-    if (error) {
-      console.error('Supabase error:', error)
+    // Prepare the data using the EXACT same format that worked in field tests
+    const contactData = {
+      name: String(name).trim(),
+      email: String(email).trim().toLowerCase(),
+      company: company ? String(company).trim() : null,
+      role: role ? String(role).trim() : null,
+      linkedin_url: linkedin_url ? String(linkedin_url).trim() : null,
+      accredited_investor: Boolean(accredited_investor),
+      professional_interests: Array.isArray(professional_interests) ? professional_interests : [],
+      personal_interests: Array.isArray(personal_interests) ? personal_interests : [],
+      connection_note: connection_note ? String(connection_note).trim() : null,
+      follow_up_needed: true
+    }
+
+    console.log('Attempting to insert contact:', contactData)
+
+    // Use the same insert method that worked in field tests
+    const result = await supabase
+      .from('contacts')
+      .insert([contactData])
+
+    if (result.error) {
+      console.error('Supabase error:', result.error)
       return NextResponse.json(
-        { error: 'Failed to save contact information' },
+        { 
+          error: 'Failed to save contact information',
+          details: result.error.message
+        },
         { status: 500 }
       )
     }
+
+    console.log('Contact saved successfully:', result)
 
     return NextResponse.json(
       { 
         success: true, 
         message: 'Contact information saved successfully',
-        data 
+        data: result.data
       },
       { status: 201 }
     )
@@ -76,7 +89,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('API error:', error)
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: `Internal server error: ${error instanceof Error ? error.message : 'Unknown error'}` },
       { status: 500 }
     )
   }
