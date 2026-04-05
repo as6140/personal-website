@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import { Fade, Flex, Line, ToggleButton, Icon, Text } from "@once-ui-system/core";
 
 import { routes, display, person, about, blog, work, gallery, music } from "@/resources";
+
+const travel = { label: "Travel" };
 import { ThemeToggle } from "./ThemeToggle";
 
 import styles from "./Header.module.scss";
@@ -163,6 +165,39 @@ export const Header = () => {
                   />
                 </>
               )}
+              {routes["/travel"] && (
+                <>
+                  <ToggleButton
+                    className="s-flex-hide"
+                    prefixIcon="globe"
+                    href="/travel"
+                    label={travel.label}
+                    selected={pathname.startsWith("/travel")}
+                  />
+                  <ToggleButton
+                    className="s-flex-show"
+                    prefixIcon="globe"
+                    href="/travel"
+                    selected={pathname.startsWith("/travel")}
+                  />
+                </>
+              )}
+              <>
+                <Line background="neutral-alpha-medium" vert maxHeight="24" />
+                <ToggleButton
+                  className="s-flex-hide"
+                  prefixIcon="email"
+                  href="/#contact-book"
+                  label="Connect"
+                  selected={false}
+                />
+                <ToggleButton
+                  className="s-flex-show"
+                  prefixIcon="email"
+                  href="/#contact-book"
+                  selected={false}
+                />
+              </>
               {display.themeSwitcher && (
                 <>
                   <Line background="neutral-alpha-medium" vert maxHeight="24" />
@@ -172,21 +207,7 @@ export const Header = () => {
             </Flex>
           </Flex>
         </Flex>
-        <Flex fillWidth horizontal="end" vertical="center">
-          <Flex
-            paddingRight="12"
-            horizontal="end"
-            vertical="center"
-            textVariant="body-default-s"
-            gap="20"
-          >
-            <Flex hide="s" gap="8" vertical="center">
-              <Icon name="globe" onBackground="accent-weak" size="s" />
-              <Text variant="body-default-s">{person.location}</Text>
-            </Flex>
-            <Flex hide="s">{display.time && <TimeDisplay timeZone={person.location} />}</Flex>
-          </Flex>
-        </Flex>
+        <Flex fillWidth horizontal="end" vertical="center" />
       </Flex>
     </>
   );

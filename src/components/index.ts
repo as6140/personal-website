@@ -12,3 +12,4 @@ export { ScrollToHash } from "@/components/ScrollToHash";
 export { ThemeToggle } from "@/components/ThemeToggle";
 export { CustomMDX } from "@/components/mdx";
 export { SpotifyProfile } from "@/components/SpotifyProfile";
+export { WorldTravelMap } from "@/components/WorldTravelMap";

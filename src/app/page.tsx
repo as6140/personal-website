@@ -55,67 +55,28 @@ export default function Home() {
         <Text style={{ textAlign: 'center' }} variant="display-default-xs" onBackground="neutral-weak">
           {person.role}
         </Text>
-        
+
+        {/* Purpose statement */}
+        <Text
+          style={{ textAlign: 'center', maxWidth: '560px' }}
+          variant="body-default-m"
+          onBackground="neutral-weak"
+          wrap="balance"
+        >
+          Part portfolio, part personal dispatch, part living contact book — for people I've met or want to meet.
+        </Text>
+
         {/* Description */}
-        <Text 
-          style={{ textAlign: 'center', maxWidth: '800px', color: 'var(--text-primary)' }} 
-          variant="body-default-l" 
+        <Text
+          style={{ textAlign: 'center', maxWidth: '680px', color: 'var(--text-primary)' }}
+          variant="body-default-l"
           wrap="balance"
         >
           {home.subline}
         </Text>
-        
-        {/* Social Links and Buttons */}
-        <Flex gap="l" wrap horizontal="center" vertical="center">
-          {social.map(
-            (item) =>
-              item.link && (
-                <React.Fragment key={item.name}>
-                  <Button
-                    className="s-flex-hide"
-                    key={item.name}
-                    href={item.link}
-                    prefixIcon={item.icon}
-                    label={item.name}
-                    size="l"
-                    weight="strong"
-                    variant="secondary"
-                    style={{
-                      borderWidth: '3px',
-                      borderStyle: 'solid',
-                      borderColor: 'var(--accent-primary)',
-                      color: 'var(--accent-primary)',
-                      backgroundColor: 'var(--surface-primary)',
-                      fontWeight: '700',
-                      fontSize: '16px',
-                      padding: '12px 20px',
-                      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-                      transition: 'all 0.2s ease',
-                      transform: 'scale(1.05)'
-                    }}
-                  />
-                  <IconButton
-                    className="s-flex-show"
-                    size="l"
-                    key={`${item.name}-icon`}
-                    href={item.link}
-                    icon={item.icon}
-                    variant="secondary"
-                    style={{
-                      borderWidth: '3px',
-                      borderStyle: 'solid',
-                      borderColor: 'var(--accent-primary)',
-                      color: 'var(--accent-primary)',
-                      backgroundColor: 'var(--surface-primary)',
-                      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-                      transform: 'scale(1.1)'
-                    }}
-                  />
-                </React.Fragment>
-              ),
-          )}
-          
-          {/* Request a Video Call Button */}
+
+        {/* Primary CTAs */}
+        <Flex gap="m" wrap horizontal="center" vertical="center">
           <Button
             href="https://cal.com/alexandershropshire"
             prefixIcon="calendar"
@@ -134,14 +95,12 @@ export default function Home() {
               padding: '12px 20px',
               boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
               transition: 'all 0.2s ease',
-              transform: 'scale(1.05)'
             }}
           />
-          
-          {/* Join My Contact Book Button */}
           <Button
             href="#contact-book"
-            label="Join My Contact Book!"
+            prefixIcon="person"
+            label="Join My Contact Book"
             size="l"
             weight="strong"
             variant="secondary"
@@ -156,9 +115,25 @@ export default function Home() {
               padding: '12px 20px',
               boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
               transition: 'all 0.2s ease',
-              transform: 'scale(1.05)'
             }}
           />
+        </Flex>
+
+        {/* Social links — compact secondary row */}
+        <Flex gap="s" wrap horizontal="center" vertical="center">
+          {social.map(
+            (item) =>
+              item.link && (
+                <IconButton
+                  key={item.name}
+                  href={item.link}
+                  icon={item.icon}
+                  variant="ghost"
+                  size="m"
+                  tooltip={item.name}
+                />
+              ),
+          )}
         </Flex>
         
       </Column>

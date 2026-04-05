@@ -7,7 +7,7 @@ const person = {
   get name() {
     return `${this.firstName} ${this.lastName}`;
   },
-  role: "Data Scientist, Analytics & Machine Learning Engineer, Systematic Algo Trader, Small Business Investor & Operator, Art Nerd, Outdoor Adventurer, and Sports Fan",
+  role: "Data Scientist · Investor · Adventurer · Art Nerd",
   avatar: "/images/avatar.jpg?v=2",
   email: "ashropshire7@gmail.com",
   location: "America/New_York", // Expecting the IANA time zone identifier, e.g., 'Europe/Vienna'
@@ -19,7 +19,7 @@ const newsletter = {
   title: <>Join My Contact Book!</>,
   description: (
     <>
-      I'm always on the hunt for new collaborators, partners, mentors, and friends. This isn't a newsletter, but a way to express openness to direct, professional or personal outreach! Think LinkedIn connection or Instagram follow, but more intentional and purpose-built.
+      Drop your info and tell me what we have in common — I'll reach out when I have something genuinely relevant to share, an opportunity that fits, or just to connect. No spam, no newsletters. Just intentional, purpose-built outreach from a real human.
     </>
   ),
 };
@@ -63,10 +63,8 @@ const home = {
   },
   subline: (
     <>
-      I'm Alex, a creative, passionate, and extroverted Staff Data Scientist/Analyst and ML/Analytics Engineer, published technical writer, 
-      and lifelong student with 10+ years of experience in advanced analytics and machine learning in product, finance, and GTM data science functions in the B2B SaaS, FinTech, and Media industries.
-      <br /><br />
-      Beyond Data/ML/AI, I also love connecting about investing, algorithmic trading, acquisition entrepreneurship, small business operations, soccer, yoga, hiking, skiing, surfing, diving, and immersive cultural and adventure travel. Let's chat!
+      Staff Data Scientist with 10+ years building ML systems and analytics infrastructure across B2B SaaS, FinTech, and Media.
+      When I'm not working with data, I'm investing, algo trading, operating small businesses, climbing mountains, playing soccer, or chasing the next adventure.
     </>
   ),
 };

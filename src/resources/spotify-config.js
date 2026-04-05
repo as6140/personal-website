@@ -18,9 +18,9 @@ export const spotifyConfig = {
   // Featured Playlists (appear at the top)
   featuredPlaylists: [
     {
-      title: "7.25",
+      title: "3.26",
       description: "I build a multi-hour random assortment of favorites and discoveries every month. A way to access my headphones in near real-time. Vibes will vary.",
-      spotifyUrl: "https://open.spotify.com/embed/playlist/03RDWrmyoG5wSwoQbe4loF",
+      spotifyUrl: "https://open.spotify.com/embed/playlist/1w4Ktr9zy3p5ifWlZcyRbh",
       category: "Monthlies",
       featured: true,
     },
@@ -55,10 +55,10 @@ export const spotifyConfig = {
   // Featured Albums (appear at the top)
   featuredAlbums: [
     {
-      title: "black british music (2025)",
-      artist: "Jim Legxacy",
-      description: "A new, more polished, more cohesive sound from a young British rapper, singer, and producer who is known for his a meticulous audio moodboards of spidery emo guitar lines, Afrobeat drums, recognizable samples, and Jersey club rhythms.",
-      spotifyUrl: "https://open.spotify.com/album/0uqw8DmJjWCODFySYWx47f?si=-PkzF45TRjOcNswJ6KZS2Q",
+      title: "Jonathan Goes Country",
+      artist: "Jonathan Richman",
+      description: "The quirky, heartfelt, and deceptively simple Jonathan Richman takes on country music — and somehow makes it feel totally his own. Warm, wry, and utterly charming.",
+      spotifyUrl: "https://open.spotify.com/embed/album/3lVQ49gDIumGBb7woMZt4w",
       featured: true,
     },
     {

@@ -31,6 +31,8 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-masonry-css": "^1.0.16",
+    "react-simple-maps": "^3.0.0",
+    "sass": "^1.99.0",
     "tailwindcss": "^4.1.11",
     "typescript": "^5.9.2"
   },
