@@ -7,7 +7,7 @@ const person = {
   get name() {
     return `${this.firstName} ${this.lastName}`;
   },
-  role: "Data Scientist · Investor · Adventurer · Art Nerd",
+  role: "Data Scientist · AI/ML Engineer · Entrepreneur · Investor · Adventurer",
   avatar: "/images/avatar.jpg?v=2",
   email: "ashropshire7@gmail.com",
   location: "America/New_York", // Expecting the IANA time zone identifier, e.g., 'Europe/Vienna'
@@ -41,6 +41,11 @@ const social = [
     name: "Medium",
     icon: "medium",
     link: "https://medium.com/@as6140",
+  },
+  {
+    name: "X",
+    icon: "x",
+    link: "https://x.com/alex_shrop",
   },
   {
     name: "Email",
@@ -90,22 +95,10 @@ const about = {
     title: "Introduction",
     description: (
       <>
-        Hi, I'm Alex! I'm a creative, passionate, and extroverted Staff Data Scientist/Analyst and ML/Analytics Engineer, published technical writer, 
-        and lifelong student with 10+ years of experience in advanced analytics and machine learning in product, finance, and GTM data science functions in the B2B SaaS, FinTech, and Media industries.
+        Staff Data Scientist and ML/AI Engineer with 10+ years shipping data products, ML models, and analytics infrastructure across FinTech, B2B SaaS, and Media.
+        Currently at LaunchDarkly, finishing my MS in Computational Data Science at Georgia Tech, and always building something at the intersection of AI, investing, and entrepreneurship.
         <br /><br />
-        Currently, I'm focused on helping LaunchDarkly evolve its product and business with strategic data-driven products, tooling, and insights while:
-        <br />
-        • Completing the final courses of my Masters in Computational Data Analytics at Georgia Tech part-time
-        <br />
-        • Experimenting with AI Agents for workflow automation
-        <br />
-        • Becoming fluent in Spanish (currently working through CEFR B1)
-        <br />
-        • Learning to invest more effectively
-        <br />
-        • Training to climb tall mountains
-        <br /><br />
-        Beyond Data/ML/AI, I also love connecting about investing, algorithmic trading, acquisition entrepreneurship, small business operations, soccer, yoga, hiking, skiing, surfing, diving, and immersive cultural and adventure travel. Let's chat!
+        Outside of data: algo trading, small business acquisition hunting, Spanish fluency (CEFR B1), mountain climbing, soccer, surfing, and chasing the next adventure. Let's connect.
       </>
     ),
   },
@@ -119,24 +112,8 @@ const about = {
         role: "Staff Data Scientist",
         achievements: [
           <>
-            Lead strategic data science initiatives to solve critical business problems by leveraging advanced ML/AI techniques, 
-            data warehouse analytics, and statistical modeling to create material impacts across the organization.
-          </>,
-          <>
-            Architect and deploy machine learning models and AI-driven solutions that enable stakeholders throughout the company 
-            to make data-driven decisions, driving improved business results through creative technical solutions.
-          </>,
-          <>
-            Develop sophisticated data models and analytics infrastructure using Snowflake, dbt, and Looker to enable 
-            self-service analytics and democratize data access across the organization.
-          </>,
-          <>
-            Translate complex quantitative analyses and ML model outputs into clear, actionable insights through 
-            advanced visualizations, comprehensive documentation, and interactive data assets for business stakeholders.
-          </>,
-          <>
-            Establish best practices for data quality testing, model validation, and analytics governance while 
-            mentoring team members and refining technical infrastructure for reliability and performance.
+            Leading strategic data science at LaunchDarkly — deploying ML/AI models, building Snowflake/dbt/Looker analytics infrastructure,
+            and translating complex quantitative analyses into decisions that move the business. Focus areas: product analytics, revenue intelligence, customer health, and data democratization.
           </>,
         ],
         images: [],
@@ -182,16 +159,14 @@ const about = {
         role: "Multiple Roles",
         achievements: [
           <>
-            <strong>Manager, Digital Analytics - Legendary Digital</strong> (July 2018 - April 2019)
+            <strong>Manager, Digital Analytics</strong> (July 2018 - April 2019)
             <br />
-            Applied data science to film and entertainment analytics, developing models for audience prediction and content performance optimization. 
-            Contributed to Legendary's "Moneyball" approach to filmmaking, using big data to help decide which movies to make, which actors to cast, 
-            and how to market finished products.
+            Contributed to Legendary's "Moneyball" approach to filmmaking — using data science to decide which movies to make, which actors to cast, and how to market them. Built audience prediction and content performance models across Legendary Digital properties.
           </>,
           <>
             <strong>Senior Analyst, Applied Analytics</strong> (February 2018 - June 2018)
             <br />
-            Analyzed film performance data and market trends to support strategic decision-making in movie production and marketing.
+            Analyzed film performance and market trends to inform strategic production and marketing decisions.
           </>,
         ],
         images: [],
@@ -204,12 +179,12 @@ const about = {
           <>
             <strong>Sales Operations Reporting Analyst</strong> (August 2016 - May 2017)
             <br />
-            Analyzed music video performance data and user engagement metrics to optimize content recommendations and advertising strategies.
+            Analyzed music video performance and user engagement to optimize content recommendations and ad strategy.
           </>,
           <>
-            <strong>Yield, Pricing, & Inventory Analyst</strong> (June 2015 - August 2016)
+            <strong>Yield, Pricing & Inventory Analyst</strong> (June 2015 - August 2016)
             <br />
-            Managed yield optimization, pricing strategies, and inventory analysis for music video advertising and content distribution.
+            Managed yield optimization, pricing strategy, and inventory analysis for video advertising and content distribution.
           </>,
         ],
         images: [],
@@ -220,19 +195,9 @@ const about = {
         role: "Multiple Roles",
         achievements: [
           <>
-            <strong>AOL On Video Client Services & Operations</strong> (January 2015 - May 2015)
+            <strong>Client Services & Video Yield Analytics</strong> (June 2013 - May 2015)
             <br />
-            Managed client services and operations for video content, ensuring smooth delivery and client satisfaction.
-          </>,
-          <>
-            <strong>Video Yield & Analytics</strong> (June 2014 - December 2014)
-            <br />
-            Analyzed video yield and performance metrics to optimize advertising revenue and content monetization strategies.
-          </>,
-          <>
-            <strong>Account Management Intern</strong> (June 2013 - August 2013)
-            <br />
-            Supported account management activities and learned the fundamentals of digital advertising and client relations.
+            Analyzed video yield and ad performance to optimize digital advertising revenue; managed client services operations for AOL's video content platform.
           </>,
         ],
         images: [],
@@ -270,62 +235,24 @@ const about = {
     title: "Other Education & Certifications",
     institutions: [
       {
-        name: "Flatiron School",
+        name: "",
         description: (
           <>
-            <strong>Data Science & Machine Learning Immersive Bootcamp</strong>
-            <br />
-            Seattle, WA · Intensive program covering Python, statistics, machine learning algorithms, and real-world data science projects to build practical skills for industry applications.
-          </>
-        ),
-      },
-      {
-        name: "Università Bocconi",
-        description: (
-          <>
-            <strong>International Business Exchange Program, Finance and Economics</strong>
-            <br />
-            Milan, Italy · International exchange program at one of Europe's leading business schools, focusing on global finance, economics, and cross-cultural business practices.
-          </>
-        ),
-      },
-      {
-        name: "UCLA",
-        description: (
-          <>
-            <strong>Certificate, Film Production</strong>
-            <br />
-            Los Angeles, CA · Film Production, Directing, Digital Cinematography, Editing, Writing, Casting · Comprehensive program covering all aspects of film production and storytelling.
-          </>
-        ),
-      },
-      {
-        name: "Damien High School",
-        description: (
-          <>
-            <strong>High School Diploma</strong>
-            <br />
-            La Verne, CA · Foundation in academic excellence and leadership development.
-          </>
-        ),
-      },
-      {
-        name: "Online Courses & MOOCs",
-        description: (
-          <>
-            <strong>Udacity Nanodegree, Data Analyst</strong> · Online · Comprehensive program covering data analysis, SQL, Python, statistics, and data visualization techniques for extracting insights from complex datasets.
+            <strong>Certificate, Film Production</strong> · UCLA, Los Angeles, CA · Film Production, Directing, Digital Cinematography, Editing, Writing, Casting
             <br /><br />
-            <strong>Advanced Data Analysis with ChatGPT</strong> · Coursera, Nov 2024 · Skills: NLP, Python, Data Analysis
+            <strong>Udacity Nanodegree, Data Analyst</strong> · Comprehensive program covering data analysis, SQL, Python, statistics, and visualization
             <br /><br />
-            <strong>LaunchDarkly Platinum Developer Certification</strong> · LaunchDarkly, Oct 2024-2026 · Skills: Product Development, Release Engineering, Experimentation
+            <strong>Advanced Data Analysis with ChatGPT</strong> · Coursera, Nov 2024
             <br /><br />
-            <strong>CS198.2x: Blockchain Technology</strong> · UC Berkeley, Dec 2021 · Blockchain Technology
+            <strong>LaunchDarkly Platinum Developer Certification</strong> · Oct 2024–2026 · Product Development, Release Engineering, Experimentation
             <br /><br />
-            <strong>CS198.1x: Bitcoin and Cryptocurrencies</strong> · UC Berkeley, Sep 2021 · Cryptocurrency Analysis
+            <strong>CS198.2x: Blockchain Technology</strong> · UC Berkeley, Dec 2021
             <br /><br />
-            <strong>Exploratory Data Analysis in Python</strong> · DataCamp · Skills: Python, Data Analysis
+            <strong>CS198.1x: Bitcoin and Cryptocurrencies</strong> · UC Berkeley, Sep 2021
             <br /><br />
-            <strong>Object-Oriented Programming in Python</strong> · DataCamp · Skills: Python, OOP
+            <strong>Exploratory Data Analysis in Python</strong> · DataCamp
+            <br /><br />
+            <strong>Object-Oriented Programming in Python</strong> · DataCamp
           </>
         ),
       },
@@ -364,7 +291,7 @@ const about = {
     ],
   },
   recommendations: {
-    display: true, // set to false to hide this section
+    display: false, // set to false to hide this section
     title: "Professional Recommendations",
     recommendations: [
       {

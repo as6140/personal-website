@@ -1,22 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { 
-      name, 
-      email, 
-      company, 
-      role, 
-      linkedin_url, 
+    const {
+      name,
+      email,
+      company,
+      role,
+      linkedin_url,
       accredited_investor,
-      professional_interests, 
-      personal_interests, 
-      connection_note 
+      professional_interests,
+      personal_interests,
+      connection_note,
     } = body
 
-    // Basic validation
     if (!name || !email) {
       return NextResponse.json(
         { error: 'Name and email are required' },
@@ -24,68 +22,85 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Create a fresh Supabase client directly in the route
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    const notionKey = process.env.NOTION_API_KEY
+    const dbId = process.env.NOTION_DATABASE_ID
 
-    if (!supabaseUrl || !supabaseAnonKey) {
-      console.warn('Supabase not configured - missing environment variables')
+    if (!notionKey || !dbId) {
+      console.warn('Notion not configured — missing NOTION_API_KEY or NOTION_DATABASE_ID')
       return NextResponse.json(
-        { 
-          success: true, 
-          message: 'Contact information received (Supabase not configured - check environment variables)',
-          data: { name, email, company, role, professional_interests, personal_interests }
+        {
+          success: true,
+          message: 'Contact received (Notion not configured — check environment variables)',
+          data: { name, email },
         },
         { status: 201 }
       )
     }
 
-    // Create a fresh client for this request
-    const supabase = createClient(supabaseUrl, supabaseAnonKey)
-
-    // Prepare the data using the EXACT same format that worked in field tests
-    const contactData = {
-      name: String(name).trim(),
-      email: String(email).trim().toLowerCase(),
-      company: company ? String(company).trim() : null,
-      role: role ? String(role).trim() : null,
-      linkedin_url: linkedin_url ? String(linkedin_url).trim() : null,
-      accredited_investor: Boolean(accredited_investor),
-      professional_interests: Array.isArray(professional_interests) ? professional_interests : [],
-      personal_interests: Array.isArray(personal_interests) ? personal_interests : [],
-      connection_note: connection_note ? String(connection_note).trim() : null,
-      follow_up_needed: true
-    }
-
-    console.log('Attempting to insert contact:', contactData)
-
-    // Use the same insert method that worked in field tests
-    const result = await supabase
-      .from('contacts')
-      .insert([contactData])
-
-    if (result.error) {
-      console.error('Supabase error:', result.error)
-      return NextResponse.json(
-        { 
-          error: 'Failed to save contact information',
-          details: result.error.message
+    const res = await fetch('https://api.notion.com/v1/pages', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${notionKey}`,
+        'Content-Type': 'application/json',
+        'Notion-Version': '2022-06-28',
+      },
+      body: JSON.stringify({
+        parent: { database_id: dbId },
+        properties: {
+          Name: {
+            title: [{ text: { content: String(name).trim() } }],
+          },
+          Email: {
+            email: String(email).trim().toLowerCase(),
+          },
+          Company: {
+            rich_text: [{ text: { content: company ? String(company).trim() : '' } }],
+          },
+          Role: {
+            rich_text: [{ text: { content: role ? String(role).trim() : '' } }],
+          },
+          LinkedIn: {
+            url: linkedin_url ? String(linkedin_url).trim() : null,
+          },
+          'Accredited Investor': {
+            checkbox: Boolean(accredited_investor),
+          },
+          'Professional Interests': {
+            multi_select: (Array.isArray(professional_interests) ? professional_interests : []).map(
+              (i: string) => ({ name: i })
+            ),
+          },
+          'Personal Interests': {
+            multi_select: (Array.isArray(personal_interests) ? personal_interests : []).map(
+              (i: string) => ({ name: i })
+            ),
+          },
+          'Connection Note': {
+            rich_text: [{ text: { content: connection_note ? String(connection_note).trim() : '' } }],
+          },
+          'Follow Up Needed': {
+            checkbox: true,
+          },
+          'Submitted At': {
+            date: { start: new Date().toISOString() },
+          },
         },
+      }),
+    })
+
+    if (!res.ok) {
+      const err = await res.json()
+      console.error('Notion API error:', err)
+      return NextResponse.json(
+        { error: 'Failed to save contact', details: err.message },
         { status: 500 }
       )
     }
 
-    console.log('Contact saved successfully:', result)
-
     return NextResponse.json(
-      { 
-        success: true, 
-        message: 'Contact information saved successfully',
-        data: result.data
-      },
+      { success: true, message: 'Contact saved successfully' },
       { status: 201 }
     )
-
   } catch (error) {
     console.error('API error:', error)
     return NextResponse.json(
@@ -93,4 +108,4 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     )
   }
-} 
+}

@@ -23,7 +23,8 @@ import {
   PiMusicNotesDuotone,
 } from "react-icons/pi";
 
-import { FaDiscord, FaGithub, FaLinkedin, FaX, FaThreads, FaMedium } from "react-icons/fa6";
+import { FaDiscord, FaGithub, FaLinkedin, FaThreads, FaMedium } from "react-icons/fa6";
+import XIcon from "./XIcon";
 
 export const iconLibrary: Record<string, IconType> = {
   arrowUpRight: HiArrowUpRight,
@@ -44,7 +45,7 @@ export const iconLibrary: Record<string, IconType> = {
   github: FaGithub,
   linkedin: FaLinkedin,
   medium: FaMedium,
-  x: FaX,
+  x: XIcon,
   threads: FaThreads,
   arrowUpRightFromSquare: HiArrowTopRightOnSquare,
   document: HiOutlineDocument,

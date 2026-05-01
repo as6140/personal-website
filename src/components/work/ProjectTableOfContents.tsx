@@ -18,6 +18,7 @@ interface ProjectTableOfContentsProps {
 // Shortened titles for the tracker
 const getShortTitle = (fullTitle: string): string => {
   const shortTitles: { [key: string]: string } = {
+    "Toolkit: Automated Deal Sourcing for Small Business & CRE Acquisitions": "Automated Deal Sourcing for Acquisitions",
     "Deep Reinforcement Learning (Q-Learning and Dyna-Q) & Parameter Optimization for Trading JPM Stock During the Great Recession": "Reinforcement Learning for Trading During Recessions",
     "Probability of Recession Forecast Dashboard: A Streamlit App to Cut Through the Noise": "Probability of Recession Forecast Dashboard",
     "(Work In Progress) Personal Quantitative Trading ML Strategy Development & Execution Infrastructure": "[WIP] Personal Quant Trading ML Infrastructure",

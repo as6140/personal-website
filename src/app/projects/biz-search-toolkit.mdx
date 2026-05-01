@@ -1,0 +1,50 @@
+---
+title: "Toolkit: Automated Deal Sourcing for Small Business & CRE Acquisitions"
+
+summary: "A personal deal-sourcing engine that scrapes BizBuySell, Acquire.com, and Crexi, scores listings against a custom buy box, enriches top deals with Claude AI, and syncs everything to Google Sheets — so you spend time on the best deals, not browsing noise."
+images:
+  - "/images/projects/biz-search-toolkit/img_biz_search_toolkit.png"
+team:
+  - name: "Alexander Shropshire"
+    role: "Data Scientist"
+    avatar: "/images/avatar.jpg"
+    linkedIn: "https://www.linkedin.com/in/alexandershropshire/"
+---
+
+## Overview
+
+A fully automated deal-sourcing system covering two acquisition strategies: small business acquisitions (BizBuySell, Acquire.com) and commercial real estate (Crexi). Listings are scraped via headless browser, scored against a strict buy box using hard filters and a 0–100 soft scoring engine, enriched by Claude AI for qualitative analysis, and synced to Google Sheets — leaving only ranked, actionable deals for human review.
+
+## Buy Boxes
+
+### Small Business Acquisitions
+
+Targets B2B, recurring-revenue businesses priced $1.2M–$2.0M with SDE $400K–$700K and an SDE multiple ≤ 3.25x. Hard-rejects anything B2C-heavy, owner-led on sales, or requiring physical presence.
+
+### Commercial Real Estate (Crexi)
+
+Evaluates self-storage, multifamily, retail, industrial, and other property types on Cap Rate, Cash-on-Cash Return, and DSCR — computed from configurable financing assumptions (LTV, interest rate, amortization period).
+
+## How It Works
+
+1. **Scrape** — Playwright headless Chrome captures live listings from BizBuySell, Acquire.com, and Crexi, including dynamically rendered content
+2. **Score** — A two-stage engine applies hard filters (auto-reject) then a 0–100 soft score across Financial Quality, Business Model, Operational Independence, and Remote Compatibility
+3. **Enrich** — Claude (Haiku) adds recurring revenue estimates, owner-dependency flags, business model classification, and a score adjustment for PASS deals
+4. **Sync** — Results write to Google Sheets across four color-coded tabs (green = CONTACT, yellow = WATCH, grey = IGNORE): Deals, Scoring Breakdown, CRM Pipeline, and CRE Deals
+
+## Built-in CRM Pipeline
+
+A lightweight CLI-driven CRM tracks active deals through stages (CONTACTED → UNDER_NDA → LOI → DUE_DILIGENCE) with timestamped notes, follow-up date alerts, and stage filtering — all without leaving the terminal.
+
+## Technologies Used
+
+- **Python** — core pipeline, scoring engine, and CLI
+- **Playwright** — headless scraping for JS-rendered listing pages
+- **Claude API (Haiku)** — LLM enrichment for qualitative business analysis
+- **Google Sheets API** — output storage and CRM sync across four tabs
+- **SQLite** — local deduplication and intermediate pipeline state
+- **Click** — CLI interface with 20+ commands covering scrape, score, enrich, sync, and CRM operations
+
+## Links
+
+- [GitHub Repository](https://github.com/as6140/biz_search_toolkit)

@@ -20,8 +20,9 @@ export default function Work() {
   
   // Manual ordering - same as in Projects.tsx
   const projectOrder = [
+    "biz-search-toolkit",
     "ml4t-strategy-evaluation",
-    "recession-forecast-app", 
+    "recession-forecast-app",
     "solo-quant-trading-infrastructure",
     "peervest-p2p-lending-robo-advisor",
     "market-maven-ensemble-modeling",

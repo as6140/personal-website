@@ -11,6 +11,7 @@ export function Projects({ range }: ProjectsProps) {
 
   // Manual ordering - define the order you want
   const projectOrder = [
+    "biz-search-toolkit",
     "ml4t-strategy-evaluation",
     "recession-forecast-app", 
     "solo-quant-trading-infrastructure",
