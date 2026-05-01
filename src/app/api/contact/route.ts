@@ -6,8 +6,6 @@ export async function POST(request: NextRequest) {
     const {
       name,
       email,
-      company,
-      role,
       linkedin_url,
       accredited_investor,
       professional_interests,
@@ -52,12 +50,6 @@ export async function POST(request: NextRequest) {
           },
           Email: {
             email: String(email).trim().toLowerCase(),
-          },
-          Company: {
-            rich_text: [{ text: { content: company ? String(company).trim() : '' } }],
-          },
-          Role: {
-            rich_text: [{ text: { content: role ? String(role).trim() : '' } }],
           },
           LinkedIn: {
             url: linkedin_url ? String(linkedin_url).trim() : null,
